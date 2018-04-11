@@ -1,0 +1,17 @@
+group 'init'
+version '1.0.0'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.web3j:core:3.3.1"
+    compile "ch.qos.logback:logback-core:1.2.3"
+    compile "ch.qos.logback:logback-classic:1.2.3"
+    testCompile "junit:junit:4.12"
+}
