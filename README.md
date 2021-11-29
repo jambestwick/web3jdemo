@@ -1,6 +1,7 @@
 ## 简介
-1. web3j是一个用于访问以太坊的轻量级的java库，用于连接客户端和以太坊区块链结点。
-2. API 来自官方文档 https://docs.web3j.io/command_line.html
+1. Mona邀请码生成器
+3. web3j是一个用于访问以太坊的轻量级的java库，用于连接客户端和以太坊区块链结点。
+
 ## 相关功能：
     1 连接以太坊客户端
     2 创建冷钱包
@@ -11,5 +12,7 @@
     7 读取&更新 智能合约的数据
     8 观察智能合约event
 ## 说明文档
-- [使用web3j构建以太坊钱包](https://www.jianshu.com/p/1b716180bc4b)
+
+支持https://monaconft.io/login/wallet
+的邀请码生成器，随机生成邀请码直至成功。
 
