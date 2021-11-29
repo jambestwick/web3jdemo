@@ -1,5 +1,9 @@
 package demo;
 
+import mona.BuildInviteCodeRequest;
+import mona.Constants;
+import mona.RandomUtil;
+import mona.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.web3j.crypto.CipherException;
@@ -8,6 +12,7 @@ import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.protocol.core.methods.response.EthSign;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Transfer;
@@ -20,11 +25,20 @@ import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.Scanner;
+
+/**
+ * @Author jambestwick
+ * @create 2021/11/30 0030  0:09
+ * @email jambestwick@126.com
+ */
 
 public class WalletDemo {
+
     private static final Logger log = LoggerFactory.getLogger(WalletDemo.class);
     private Web3j web3j;
     private Credentials credentials;
+    String tempAddress;
 
     public static void main(String[] args) throws Exception {
         new WalletDemo().run1();
@@ -35,7 +49,47 @@ public class WalletDemo {
         log.info("hello eth,hello web3j");
         conectETHclient();//连接以太坊客户端
         //creatAccount();//创建冷钱包
-        loadWallet();//加载钱包
+        String keyWord = "";
+        String password = "";
+        System.out.println("离线工具，放心使用,源码在github.com/jambestwick");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("离线工具，放心使用,输入助记词/offLine tools  safe, input mnemonic：");
+        if (scanner.hasNext()) {
+            keyWord = scanner.next();
+        }
+
+        System.out.println("请输入密码/Please input password：");
+
+        if (scanner.hasNext()) {
+            password = scanner.next();
+        }
+
+        loadWalletByPrimaryKeyPassword(keyWord, password);//加载钱包
+        //先获取Sign码
+
+        while (true) {
+            String monaMessage = RequestUtil.requestGet(Constants.GET_MESSAGE);
+            if (monaMessage == null) {
+                //未获取到Message
+                continue;
+            }
+            //不断尝试随机生成code码
+            String signMessage = sign(tempAddress, monaMessage);
+            if (signMessage == null) {
+                continue;
+            }
+            //随机生成邀请码
+            String inviteCode = RandomUtil.randomNumDigest();
+            String response = RequestUtil.requestPost(Constants.POST_INVITE_CODE, BuildInviteCodeRequest.buildInviteParam(tempAddress, inviteCode, signMessage));
+
+            if (response != null && !response.contains("wrong invite code or has been taken")) {//邀请码成功，不继续
+                System.out.println("恭喜你，成功获取到了邀请码，进入Mona");
+                System.out.println("Congratulations，Success get the invite code，Mona login");
+
+                break;
+            }
+        }
+
         //getBlanceOf();//查询账户余额
         //transto();//转账到指定地址
     }
@@ -44,7 +98,8 @@ public class WalletDemo {
     /*******连接以太坊客户端**************/
     private void conectETHclient() throws IOException {
         //连接方式1：使用infura 提供的客户端
-        web3j = Web3j.build(new HttpService("https://rinkeby.infura.io/zmd7VgRt9go0x6qlJ2Mk"));// TODO: 2018/4/10 token更改为自己的
+        //mainnet https://mainnet.infura.io/v3/2b86c426683f4a6095fd175fe931d799
+        web3j = Web3j.build(new HttpService("https://mainnet.infura.io/v3/2b86c426683f4a6095fd175fe931d799"));// TODO: 2018/4/10 token更改为自己的或者主网
         //连接方式2：使用本地客户端
         //web3j = Web3j.build(new HttpService("127.0.0.1:7545"));
         //测试是否连接成功
@@ -79,6 +134,24 @@ public class WalletDemo {
         log.info("private key=" + privateKey);
     }
 
+    /**
+     * 根据助记词连接
+     **/
+
+    private void loadWalletByPrimaryKeyPassword(String keyWords, String password) throws IOException, CipherException {
+        credentials = WalletUtils.loadBip39Credentials(password,
+                keyWords);//"cherry type collect echo derive shy balcony dog concert picture kid february"
+        String address = credentials.getAddress();
+        BigInteger publicKey = credentials.getEcKeyPair().getPublicKey();
+        BigInteger privateKey = credentials.getEcKeyPair().getPrivateKey();
+
+        log.info("address=" + address);
+        log.info("public key=" + publicKey);
+        log.info("private key=" + privateKey);
+        tempAddress = address;
+
+    }
+
     /****************交易*****************/
     private void transto() throws Exception {
         if (web3j == null) return;
@@ -95,6 +168,16 @@ public class WalletDemo {
         log.info("status: " + send.getStatus());
     }
 
+    /********签名**********/
+    private String sign(String address, String message) throws Exception {
+        if (web3j == null) return null;
+        if (credentials == null) return null;
+        EthSign ethSign = web3j.ethSign(address, message).send();
+        String resultSignature = ethSign.getSignature();
+        log.info("sign hash=" + resultSignature);
+        return resultSignature;
+    }
+
     /***********查询指定地址的余额***********/
     private void getBlanceOf() throws IOException {
 
@@ -106,4 +189,6 @@ public class WalletDemo {
         String blanceETH = Convert.fromWei(balance.getBalance().toString(), Convert.Unit.ETHER).toPlainString().concat(" ether");
         log.info(blanceETH);
     }
+
+
 }
