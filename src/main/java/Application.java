@@ -1,4 +1,7 @@
 import demo.WalletDemo;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * 本案例作为web3j的示例项目
@@ -10,8 +13,12 @@ import demo.WalletDemo;
  * 6 读取&更新 智能合约的数据
  * 7 观察智能合约event
  */
+@SpringBootApplication
 public class Application {
     public static void main(String[] args) throws Exception {
+//        SpringApplication app = new SpringApplication(Application.class);
+//        ConfigurableApplicationContext context = app.run();
+//        context.start();
         WalletDemo.main(args);
     }
 

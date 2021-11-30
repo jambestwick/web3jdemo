@@ -1,11 +1,8 @@
 package mona;
 
-import demo.WalletDemo;
 import okhttp3.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sun.plugin2.message.Message;
-import sun.rmi.runtime.Log;
 
 import java.io.IOException;
 import java.util.Map;
@@ -37,7 +34,7 @@ public class RequestUtil {
         return null;
     }
 
-    public static String requestPost(String url, Map<String, String> requestMap) {
+    public static String requestPost(String url, Map<String, String> requestMap, Map<String, String> headMap) {
         // &weaid=1&date=2018-08-13&appkey=10003&sign=b59bc3ef6191eb9f747dd4e83c99f2a4&format=json";
 
         OkHttpClient okHttpClient = new OkHttpClient();
@@ -47,16 +44,24 @@ public class RequestUtil {
             String value = requestMap.get(key);
             builder.add(key, value);
         }
+
+        Headers headers = Headers.of(headMap);
         RequestBody body = builder.build();
         okhttp3.Request request = new okhttp3.Request.Builder()
                 .url(url)
+                .headers(headers)
                 .post(body)
                 .build();
 
         try {
             Call call = okHttpClient.newCall(request);
             Response response = call.execute();
-            return response.body().toString();
+            if (response.code() == 200) {
+                return response.body().toString();
+            } else {
+                return null;
+            }
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -6,14 +6,11 @@ import mona.RandomUtil;
 import mona.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.web3j.crypto.CipherException;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletUtils;
+import org.web3j.crypto.*;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.core.DefaultBlockParameter;
-import org.web3j.protocol.core.methods.response.EthGetBalance;
-import org.web3j.protocol.core.methods.response.EthSign;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.protocol.core.methods.response.*;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
@@ -39,6 +36,7 @@ public class WalletDemo {
     private Web3j web3j;
     private Credentials credentials;
     String tempAddress;
+    private HttpService httpService;
 
     public static void main(String[] args) throws Exception {
         new WalletDemo().run1();
@@ -49,22 +47,36 @@ public class WalletDemo {
         log.info("hello eth,hello web3j");
         conectETHclient();//连接以太坊客户端
         //creatAccount();//创建冷钱包
-        String keyWord = "";
-        String password = "";
+        String privateKey = "";
+        String wechat = "";
+        String keyStoreDir = WalletUtils.getDefaultKeyDirectory();
+        System.out.println("生成keyStore文件的默认目录：" + keyStoreDir);
+        //通过密码及keystore目录生成钱包
+        //Bip39Wallet wallet = WalletUtils.generateBip39Wallet("4k22621004", new File(keyStoreDir));
+        //keyStore文件名
+//        System.out.println(wallet.getFilename());
+//        //12个单词的助记词
+//        System.out.println(wallet.getMnemonic());
+
         System.out.println("离线工具，放心使用,源码在github.com/jambestwick");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("离线工具，放心使用,输入助记词/offLine tools  safe, input mnemonic：");
+        System.out.println("请输入作者的微信号，方能使用:");
         if (scanner.hasNext()) {
-            keyWord = scanner.next();
+            wechat = scanner.nextLine();
         }
-
-        System.out.println("请输入密码/Please input password：");
-
-        if (scanner.hasNext()) {
-            password = scanner.next();
+        if (wechat == null) {
+            System.out.println("对不起，你不认识作者！");
+            return;
         }
+        if (!wechat.equals("菜菜龙")) {
+            System.out.println("对不起，你不认识作者！");
+            return;
+        }
+        System.out.println("离线工具，放心使用,输入私钥/offLine tools  safe, input privateKey：");
 
-        loadWalletByPrimaryKeyPassword(keyWord, password);//加载钱包
+        privateKey = scanner.nextLine();
+
+        loadWalletByPrimaryKeyPassword(privateKey);//加载钱包
         //先获取Sign码
 
         while (true) {
@@ -80,10 +92,26 @@ public class WalletDemo {
             }
             //随机生成邀请码
             String inviteCode = RandomUtil.randomNumDigest();
-            String response = RequestUtil.requestPost(Constants.POST_INVITE_CODE, BuildInviteCodeRequest.buildInviteParam(tempAddress, inviteCode, signMessage));
+            String response = RequestUtil.requestPost(Constants.POST_INVITE_CODE
+                    , BuildInviteCodeRequest.buildInviteParam(tempAddress, inviteCode, signMessage)
+                    , BuildInviteCodeRequest.buildHead("application/json, text/plain, */*"
+                            , "gzip, deflate, br"
+                            , "en-US,en;q=0.9,zh-CN;q=0.8,zh;q=0.7"
+                            , "application/json"
+                            , "https://monaconft.io"
+                            , "https://monaconft.io/"
+                            , "\"Chromium\";v=\"94\", \"Google Chrome\";v=\"94\", \";Not A Brand\";v=\"99\""
+                            , "?1"
+                            , "Android"
+                            , "empty"
+                            , "cors"
+                            , "same-site"
+                            , ""
+                            , "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Mobile Safari/537.36")
+            );
 
             if (response != null && !response.contains("wrong invite code or has been taken")) {//邀请码成功，不继续
-                System.out.println("恭喜你，成功获取到了邀请码，进入Mona");
+                System.out.println("恭喜你，成功获取到了邀请码，进入Mona:" + response.toLowerCase());
                 System.out.println("Congratulations，Success get the invite code，Mona login");
 
                 break;
@@ -99,7 +127,7 @@ public class WalletDemo {
     private void conectETHclient() throws IOException {
         //连接方式1：使用infura 提供的客户端
         //mainnet https://mainnet.infura.io/v3/2b86c426683f4a6095fd175fe931d799
-        web3j = Web3j.build(new HttpService("https://mainnet.infura.io/v3/2b86c426683f4a6095fd175fe931d799"));// TODO: 2018/4/10 token更改为自己的或者主网
+        web3j = Web3j.build(new HttpService("https://mainnet.infura.io/v3/9eb78bae70c34116a2b28db3fdb96dd0"));// TODO: 2018/4/10 token更改为自己的或者主网
         //连接方式2：使用本地客户端
         //web3j = Web3j.build(new HttpService("127.0.0.1:7545"));
         //测试是否连接成功
@@ -138,9 +166,11 @@ public class WalletDemo {
      * 根据助记词连接
      **/
 
-    private void loadWalletByPrimaryKeyPassword(String keyWords, String password) throws IOException, CipherException {
-        credentials = WalletUtils.loadBip39Credentials(password,
-                keyWords);//"cherry type collect echo derive shy balcony dog concert picture kid february"
+    private void loadWalletByPrimaryKeyPassword(String privateKeys) throws IOException, CipherException {
+
+        credentials = Credentials.create(privateKeys);
+//        credentials = WalletUtils.loadBip39Credentials(password,
+//                keyWords);//"cherry type collect echo derive shy balcony dog concert picture kid february"
         String address = credentials.getAddress();
         BigInteger publicKey = credentials.getEcKeyPair().getPublicKey();
         BigInteger privateKey = credentials.getEcKeyPair().getPrivateKey();
@@ -172,8 +202,13 @@ public class WalletDemo {
     private String sign(String address, String message) throws Exception {
         if (web3j == null) return null;
         if (credentials == null) return null;
-        EthSign ethSign = web3j.ethSign(address, message).send();
-        String resultSignature = ethSign.getSignature();
+
+        byte[] hexMessage = Hash.sha3(message.getBytes());
+
+        Sign.SignatureData signatureData = Sign.signMessage(hexMessage, credentials.getEcKeyPair());
+        //EthSign ethSign = web3j.ethSign(address, Hash.sha3(message)).send();
+
+        String resultSignature = signatureData.toString();
         log.info("sign hash=" + resultSignature);
         return resultSignature;
     }
@@ -188,6 +223,22 @@ public class WalletDemo {
         //格式转化 wei-ether
         String blanceETH = Convert.fromWei(balance.getBalance().toString(), Convert.Unit.ETHER).toPlainString().concat(" ether");
         log.info(blanceETH);
+    }
+
+    /**
+     * 初始化admin级别操作的对象
+     *
+     * @return Admin
+     */
+    private Admin initAdmin() {
+        return Admin.build(getService());
+    }
+
+    private HttpService getService() {
+        if (httpService == null) {
+            httpService = new HttpService("https://mainnet.infura.io/v3/9eb78bae70c34116a2b28db3fdb96dd0");
+        }
+        return httpService;
     }
 
 
