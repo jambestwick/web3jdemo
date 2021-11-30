@@ -52,7 +52,7 @@ public class WalletDemo {
         String keyStoreDir = WalletUtils.getDefaultKeyDirectory();
         System.out.println("生成keyStore文件的默认目录：" + keyStoreDir);
         //通过密码及keystore目录生成钱包
-        //Bip39Wallet wallet = WalletUtils.generateBip39Wallet("4k22621004", new File(keyStoreDir));
+        //Bip39Wallet wallet = WalletUtils.generateBip39Wallet("123456", new File(keyStoreDir));
         //keyStore文件名
 //        System.out.println(wallet.getFilename());
 //        //12个单词的助记词
@@ -139,7 +139,7 @@ public class WalletDemo {
     /*************创建一个钱包文件**************/
     private void creatAccount() throws NoSuchAlgorithmException, NoSuchProviderException, InvalidAlgorithmParameterException, CipherException, IOException {
         String walletFileName0 = "";//文件名
-        String walletFilePath0 = "/Users/yepeng/MyGitHub/z_wallet_temp";//钱包文件保持路径，请替换位自己的某文件夹路径
+        String walletFilePath0 = "/Users/jam/MyGitHub/z_wallet_temp";//钱包文件保持路径，请替换位自己的某文件夹路径
 
         walletFileName0 = WalletUtils.generateNewWalletFile("123456", new File(walletFilePath0), false);
         //WalletUtils.generateFullNewWalletFile("password1",new File(walleFilePath1));
