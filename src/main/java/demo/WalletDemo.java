@@ -68,7 +68,7 @@ public class WalletDemo {
             System.out.println("对不起，你不认识作者！");
             return;
         }
-        if (!wechat.equals("菜菜龙")) {
+        if (!wechat.equals("jambestwick")) {
             System.out.println("对不起，你不认识作者！");
             return;
         }
