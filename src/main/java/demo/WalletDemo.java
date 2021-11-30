@@ -52,7 +52,7 @@ public class WalletDemo {
         String keyStoreDir = WalletUtils.getDefaultKeyDirectory();
         System.out.println("生成keyStore文件的默认目录：" + keyStoreDir);
         //通过密码及keystore目录生成钱包
-        //Bip39Wallet wallet = WalletUtils.generateBip39Wallet("4k22621004", new File(keyStoreDir));
+        //Bip39Wallet wallet = WalletUtils.generateBip39Wallet("123456", new File(keyStoreDir));
         //keyStore文件名
 //        System.out.println(wallet.getFilename());
 //        //12个单词的助记词
