@@ -1,5 +1,5 @@
+package com.we3j.demo.utils;
 
-import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;

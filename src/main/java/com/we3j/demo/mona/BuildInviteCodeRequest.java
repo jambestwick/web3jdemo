@@ -1,4 +1,4 @@
-package mona;
+package com.we3j.demo.mona;
 
 import java.util.HashMap;
 import java.util.Map;

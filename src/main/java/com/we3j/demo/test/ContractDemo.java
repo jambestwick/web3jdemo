@@ -1,4 +1,4 @@
-package demo;
+package com.we3j.demo.test;
 
 /**
  * @auth jambestwick

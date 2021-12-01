@@ -1,9 +1,9 @@
-package demo;
+package com.we3j.demo.test;
 
-import mona.BuildInviteCodeRequest;
-import mona.Constants;
-import mona.RandomUtil;
-import mona.RequestUtil;
+import com.we3j.demo.mona.BuildInviteCodeRequest;
+import com.we3j.demo.mona.Constants;
+import com.we3j.demo.mona.RandomUtil;
+import com.we3j.demo.mona.RequestUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.web3j.crypto.*;
