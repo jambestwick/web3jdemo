@@ -59,6 +59,9 @@ public class WalletDemo {
 //        //12个单词的助记词
 //        System.out.println(wallet.getMnemonic());
 
+        Scanner scanner = new Scanner(System.in);
+        privateKey = scanner.next();
+        //
         loadWalletByPrivateKey(privateKey);//加载钱包
         //先获取Sign码
 
