@@ -1,7 +1,6 @@
-import demo.WalletDemo;
-import org.springframework.boot.SpringApplication;
+package com.we3j.demo;
+import com.we3j.demo.test.WalletDemo;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * 本案例作为web3j的示例项目
