@@ -4,6 +4,7 @@ import com.we3j.demo.mona.BuildInviteCodeRequest;
 import com.we3j.demo.mona.Constants;
 import com.we3j.demo.mona.RandomUtil;
 import com.we3j.demo.mona.RequestUtil;
+import com.we3j.demo.utils.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.web3j.crypto.*;
@@ -46,7 +47,7 @@ public class WalletDemo {
 
     private void run1() throws Exception {
         log.info("hello eth,hello web3j");
-        connectETHclient();//连接以太坊客户端
+        connectETHClient();//连接以太坊客户端
         //creatAccount();//创建冷钱包
         String privateKey = "";
         String keyStoreDir = WalletUtils.getDefaultKeyDirectory();
@@ -67,10 +68,10 @@ public class WalletDemo {
 
 
     /*******连接以太坊客户端**************/
-    private void connectETHclient() throws IOException {
+    private void connectETHClient() throws IOException {
         //连接方式1：使用infura 提供的客户端
         //mainnet https://mainnet.infura.io/v3/2b86c426683f4a6095fd175fe931d799
-        web3j = Web3j.build(new HttpService("https://mainnet.infura.io/v3/9eb78bae70c34116a2b28db3fdb96dd0"));// TODO: 2018/4/10 节点更改为自己的或者主网
+        web3j = Web3j.build(new HttpService(Environment.RPC_URL));// TODO: 2018/4/10 节点更改为自己的或者主网
         //连接方式2：使用本地客户端
         //web3j = Web3j.build(new HttpService("127.0.0.1:7545"));
         //测试是否连接成功

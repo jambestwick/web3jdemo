@@ -1,34 +1,44 @@
 package com.we3j.demo.test;
 
-import org.bouncycastle.util.encoders.HexEncoder;
+import com.we3j.demo.utils.Environment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.web3j.abi.FunctionEncoder;
+import org.web3j.abi.EventEncoder;
 import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Event;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.ContractUtils;
+import org.web3j.crypto.Credentials;
 import org.web3j.crypto.RawTransaction;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.methods.response.*;
+import org.web3j.protocol.core.methods.request.EthFilter;
+import org.web3j.protocol.core.methods.response.EthEstimateGas;
+import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
+import org.web3j.protocol.core.methods.response.EthGetTransactionReceipt;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.utils.Collection;
 import org.web3j.utils.Convert;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 /**
  * @auth jambestwick
+ * <p>
+ * 合约测试
  ***/
 
 public class ContractDemo {
 
     private static final Logger log = LoggerFactory.getLogger(ContractDemo.class);
     private Web3j web3j;
+    private Credentials credentials;
 
     public static void main(String[] args) {
         new ContractDemo().run();
@@ -40,15 +50,27 @@ public class ContractDemo {
 
 
     /*******连接以太坊客户端**************/
-    private void connectETHclient() throws IOException {
+    private void connectETHClient() throws IOException {
         //连接方式1：使用infura 提供的客户端
         //mainnet https://mainnet.infura.io/v3/2b86c426683f4a6095fd175fe931d799
-        web3j = Web3j.build(new HttpService("https://mainnet.infura.io/v3/9eb78bae70c34116a2b28db3fdb96dd0"));// TODO: 2018/4/10 节点更改为自己的或者主网
+        web3j = Web3j.build(new HttpService(Environment.RPC_URL));// TODO: 2018/4/10 节点更改为自己的或者主网
         //连接方式2：使用本地客户端
         //web3j = Web3j.build(new HttpService("127.0.0.1:7545"));
         //测试是否连接成功
         String web3ClientVersion = web3j.web3ClientVersion().send().getWeb3ClientVersion();
         log.info("version=" + web3ClientVersion);
+    }
+
+    /********根据私钥加载钱包 **********/
+    private void loadWalletByPrivateKey(String inputPrivateKey) {
+        credentials = Credentials.create(inputPrivateKey);
+        String address = credentials.getAddress();
+        BigInteger publicKey = credentials.getEcKeyPair().getPublicKey();
+        BigInteger privateKey = credentials.getEcKeyPair().getPrivateKey();
+
+        log.info("address=" + address);
+        log.info("public key=" + publicKey);
+        log.info("private key=" + privateKey);
     }
 
 
@@ -130,24 +152,53 @@ public class ContractDemo {
     }
 
 
-
-    /*************与智能合约交易***************/
-//    private void transWithContract(){
-//        Collection.Function function = new Collection.Function<>(
-//                "functionName",  // function we're calling
-//                Arrays.asList(new Type(value), ...),  // Parameters to pass as Solidity Types
-//        Arrays.asList(new TypeReference<Type>() {}, ...));
+//    private void deploy() {
 //
-//        String encodedFunction = FunctionEncoder.encode(function)
-//        Transaction transaction = Transaction.createFunctionCallTransaction(
-//                <from>, <gasPrice>, <gasLimit>, contractAddress, <funds>, encodedFunction);
+//        Web3j web3j = Web3j.build(new HttpService(Environment.RPC_URL));
+//        RemoteCall<TokenERC20> deploy = TokenERC20.deploy(web3j, credentials,
+//                Convert.toWei("10", Convert.Unit.GWEI).toBigInteger(),
+//                BigInteger.valueOf(3000000),
+//                BigInteger.valueOf(5201314),
+//                "my token", "mt");
+//        try {
+//            TokenERC20 tokenERC20 = deploy.send();
+//            tokenERC20.isValid();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 //
-//        org.web3j.protocol.core.methods.response.EthSendTransaction transactionResponse =
-//                web3j.ethSendTransaction(transaction).sendAsync().get();
-//
-//        String transactionHash = transactionResponse.getTransactionHash();
-//
-//// wait for response using EthGetTransactionReceipt...
 //    }
+
+    /***合约监听***/
+    private void listenContract(String contractAddress) {
+
+        /**
+         * 监听ERC20 token 交易
+         */
+        EthFilter filter = new EthFilter(
+                DefaultBlockParameterName.EARLIEST,
+                DefaultBlockParameterName.LATEST,
+                contractAddress);
+        org.web3j.abi.datatypes.Event event = new Event("Transfer",
+                Arrays.<TypeReference<?>>asList(
+                        new TypeReference<?>[]{new TypeReference<Address>(true) {
+                        }, new TypeReference<Address>(true) {
+                        }, new TypeReference<Uint256>(false) {
+                        }})
+        );
+
+        String topicData = EventEncoder.encode(event);
+        filter.addSingleTopic(topicData);
+        System.out.println(topicData);
+
+        web3j.ethLogObservable(filter).subscribe(log -> {
+            System.out.println(log.getBlockNumber());
+            System.out.println(log.getTransactionHash());
+            List<String> topics = log.getTopics();
+            for (String topic : topics) {
+                System.out.println(topic);
+            }
+        });
+    }
 
 }
