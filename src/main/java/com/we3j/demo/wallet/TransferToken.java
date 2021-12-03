@@ -16,11 +16,11 @@ import org.web3j.crypto.RawTransaction;
 import org.web3j.crypto.TransactionEncoder;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.methods.response.EthGetTransactionCount;
-import org.web3j.protocol.core.methods.response.EthSendTransaction;
-import org.web3j.protocol.core.methods.response.Transaction;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
+import org.web3j.protocol.core.DefaultBlockParameterNumber;
+import org.web3j.protocol.core.Request;
+import org.web3j.protocol.core.methods.response.*;
 import org.web3j.protocol.exceptions.TransactionException;
 import org.web3j.tx.Contract;
 import org.web3j.tx.Transfer;
@@ -149,6 +149,32 @@ public class TransferToken {
         for (ReceiveAccount receiveAccount : receiveAccountList) {
             transferERC20(web3j, credentials, from, receiveAccount.getAddress(), receiveAccount.getSendAmount().toBigInteger(), contractAddress);
         }
+    }
+
+    /**
+     * 根据hash值获取交易
+     *
+     * @param hash
+     * @return
+     * @throws IOException
+     */
+    public static EthTransaction getTransactionByHash(Web3j web3j,String hash) throws IOException {
+        Request<?, EthTransaction> request = web3j.ethGetTransactionByHash(hash);
+        return request.send();
+    }
+
+    /**
+     * 获得ethblock
+     *
+     * @param blockNumber 根据区块编号
+     * @return
+     * @throws IOException
+     */
+    public static EthBlock getBlockEthBlock(Web3j web3j,Integer blockNumber) throws IOException {
+        DefaultBlockParameter defaultBlockParameter = new DefaultBlockParameterNumber(blockNumber);
+        Request<?, EthBlock> request = web3j.ethGetBlockByNumber(defaultBlockParameter, true);
+        EthBlock ethBlock = request.send();
+        return ethBlock;
     }
 
 }

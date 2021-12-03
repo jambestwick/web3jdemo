@@ -5,6 +5,7 @@ import com.we3j.demo.mona.Constants;
 import com.we3j.demo.mona.RandomUtil;
 import com.we3j.demo.mona.RequestUtil;
 import com.we3j.demo.utils.Environment;
+import com.we3j.demo.wallet.WalletTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.web3j.crypto.*;
@@ -25,6 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 import java.util.Scanner;
+import java.util.concurrent.Executors;
 
 /**
  * @Author jambestwick
@@ -47,6 +49,23 @@ public class WalletDemo {
 
     private void run1() throws Exception {
         log.info("hello eth,hello web3j");
+
+//        for (int i = 0; i < 100; i++) {
+//            Executors.newCachedThreadPool().execute(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        WalletTools.createWalletBatch(100000,"d:\\keystore","d:\\keystore\\abc.txt");
+//                    } catch (CipherException e) {
+//                        e.printStackTrace();
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+//        }
+//
+
         connectETHClient();//连接以太坊客户端
         //creatAccount();//创建冷钱包
         String privateKey = "";
