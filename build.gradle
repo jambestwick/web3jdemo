@@ -34,6 +34,7 @@ dependencies {
             "org.springframework.boot:spring-boot-starter-websocket"
     )
     compile "org.web3j:core:3.6.0"
+    compile "org.web3j:geth:3.6.0"
     compile "org.bitcoinj:bitcoinj-core:0.14.6"
     compile "ch.qos.logback:logback-core:1.2.3"
     compile "ch.qos.logback:logback-classic:1.2.3"
