@@ -5,10 +5,9 @@ import java.util.*;
 
 /**
  * <p>文件描述：时间转换工具<p>
- * <p>作者：jambestwick<p>
+ * <p>author：jambestwick<p>
  * <p>创建时间：2019/11/29<p>
  * <p>更新时间：2019/11/29<p>
- * <p>版本号：${VERSION}<p>
  * <p>邮箱：jambestwick@126.com<p>
  */
 public class TimeUtil {

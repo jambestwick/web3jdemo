@@ -50,27 +50,11 @@ public class WalletDemo {
     private void run1() throws Exception {
         log.info("hello eth,hello web3j");
 
-//        for (int i = 0; i < 100; i++) {
-//            Executors.newCachedThreadPool().execute(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        WalletTools.createWalletBatch(100000,"d:\\keystore","d:\\keystore\\abc.txt");
-//                    } catch (CipherException e) {
-//                        e.printStackTrace();
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            });
-//        }
-//
-
-        connectETHClient();//连接以太坊客户端
-        //creatAccount();//创建冷钱包
-        String privateKey = "";
-        String keyStoreDir = WalletUtils.getDefaultKeyDirectory();
-        System.out.println("生成keyStore文件的默认目录：" + keyStoreDir);
+//        connectETHClient();//连接以太坊客户端
+//        //creatAccount();//创建冷钱包
+//        String privateKey = "";
+//        String keyStoreDir = WalletUtils.getDefaultKeyDirectory();
+//        System.out.println("生成keyStore文件的默认目录：" + keyStoreDir);
         //通过密码及keystore目录生成钱包
         //Bip39Wallet wallet = WalletUtils.generateBip39Wallet("123456", new File(keyStoreDir));
         //keyStore文件名
@@ -78,11 +62,11 @@ public class WalletDemo {
 //        //12个单词的助记词
 //        System.out.println(wallet.getMnemonic());
 
-        Scanner scanner = new Scanner(System.in);
-        privateKey = scanner.next();
-        //
-        loadWalletByPrivateKey(privateKey);//加载钱包
-        //先获取Sign码
+//        Scanner scanner = new Scanner(System.in);
+//        privateKey = scanner.next();
+//        //
+//        loadWalletByPrivateKey(privateKey);//加载钱包
+//        //先获取Sign码
 
         //getBlanceOf();//查询账户余额
         //transto();//转账到指定地址
@@ -230,7 +214,6 @@ public class WalletDemo {
 
 
     /***********查询指定地址的余额***********/
-
 
 
     /**

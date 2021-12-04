@@ -3,6 +3,9 @@ package com.we3j.demo.utils;
 /**
  * * Created by jambestwick@126.com
  * * on 2021/12/2
+ *
+ * personal RPC
+ * register on @see https://infura.io
  * *
  */
 public class Environment {

@@ -13,6 +13,8 @@ import java.util.concurrent.ExecutionException;
  * * Created by jambestwick@126.com
  * * on 2021/12/3
  * 账号管理
+ * 对账号的锁定与解锁
+ * 保证安全
  * *
  */
 public class AccountUtil {

@@ -3,10 +3,15 @@ package com.we3j.demo.wallet;
 import com.we3j.demo.utils.FileUtil;
 import org.web3j.crypto.Bip39Wallet;
 import org.web3j.crypto.CipherException;
+import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 
 /**
  * * Created by jambestwick@126.com
@@ -35,4 +40,67 @@ public class WalletTools {
         }
 
     }
+
+    /**
+     * return fileName
+     **/
+    public static String createWalletFull(String password, String destFile) throws CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
+        FileUtil.createOrExistsDir(new File(destFile));
+        return WalletUtils.generateFullNewWalletFile(password, new File(destFile));
+    }
+
+    /**
+     * return fileName
+     ***/
+    public static String createWalletLight(String password, String destFile) throws CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
+        FileUtil.createOrExistsDir(new File(destFile));
+        return WalletUtils.generateLightNewWalletFile(password, new File(destFile));
+    }
+
+    /**
+     *
+     **/
+    public static Credentials loadWallet(String password, String walletFilePath) throws IOException, CipherException {
+        // FIXME: 2018/4/15 替换为自己的钱包路径
+        //String walletFilePath = "/Users/jambestwick/MyGitHub/z_wallet_temp/UTC--2018-04-10T02-51-24.815000000Z--12571f46ec3f81f7ebe79112be5883194d683787.json";
+        //String password = "123456";
+        Credentials credentials = WalletUtils.loadCredentials(password, walletFilePath);
+        String address = credentials.getAddress();
+        BigInteger publicKey = credentials.getEcKeyPair().getPublicKey();
+        BigInteger privateKey = credentials.getEcKeyPair().getPrivateKey();
+
+        System.out.println("address=" + address);
+        System.out.println("public key=" + publicKey);
+        System.out.println("private key=" + privateKey);
+        return credentials;
+    }
+
+    /********根据助记词加载钱包 **********/
+    public static Credentials loadWalletByMnemonic(String password, String mnemonic) {
+        Credentials credentials = WalletUtils.loadBip39Credentials(password, mnemonic);//no need password
+//        credentials = WalletUtils.loadBip39Credentials(password,
+//                keyWords);//"cherry type collect echo derive shy balcony dog concert picture kid february"
+        String address = credentials.getAddress();
+        BigInteger publicKey = credentials.getEcKeyPair().getPublicKey();
+        BigInteger privateKey = credentials.getEcKeyPair().getPrivateKey();
+
+        System.out.println("address=" + address);
+        System.out.println("public key=" + publicKey);
+        System.out.println("private key=" + privateKey);
+        return credentials;
+    }
+
+    public static Credentials loadWalletByPrivateKey(String inputPrivateKey) {
+        Credentials credentials = Credentials.create(inputPrivateKey);
+        String address = credentials.getAddress();
+        BigInteger publicKey = credentials.getEcKeyPair().getPublicKey();
+        BigInteger privateKey = credentials.getEcKeyPair().getPrivateKey();
+
+        System.out.println("address=" + address);
+        System.out.println("public key=" + publicKey);
+        System.out.println("private key=" + privateKey);
+        return credentials;
+    }
+
+
 }
