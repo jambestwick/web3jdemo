@@ -1,10 +1,21 @@
 package com.we3j.demo.wallet;
 
+import org.web3j.abi.EventEncoder;
+import org.web3j.abi.TypeReference;
+import org.web3j.abi.datatypes.Address;
+import org.web3j.abi.datatypes.Event;
+import org.web3j.abi.datatypes.Uint;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameterName;
+import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.EthBlock;
+import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.Transaction;
 import rx.Subscription;
 import rx.functions.Action1;
+
+import java.util.Arrays;
 
 /**
  * * Created by jambestwick@126.com
@@ -56,7 +67,7 @@ public class TransMonitor {
 
     /**
      * 取消订阅信息
-     * **/
+     **/
     public void unsubscribeHasTrans(Subscription subscription) {
         if (this.web3j == null) return;
         subscription.unsubscribe();
@@ -64,17 +75,45 @@ public class TransMonitor {
 
     /**
      * 监听待定交易
-     * */
+     */
     public Subscription subscribePendingTrans(final Action1<? super Transaction> onNext) {
         if (this.web3j == null) return null;
         return web3j.pendingTransactionObservable().subscribe(onNext);
     }
+
     /**
      * 取消订阅信息
-     * **/
+     **/
     public void unsubscribePendingTrans(Subscription subscription) {
         if (this.web3j == null) return;
         subscription.unsubscribe();
+    }
+
+
+    /**
+     * 监听合约的交易事件
+     * **/
+    public Subscription subscribeContract(String contractAddress, final Action1<? super Log> onNext) {
+        if (this.web3j == null) return null;
+
+        // 要监听的合约事件 交易
+        Event event = new Event("Transfer",
+
+                Arrays.asList(
+                        new TypeReference<Address>(true) {
+                        },
+
+                        new TypeReference<Address>(true) {
+                        },
+
+                        new TypeReference<Uint256>(false) {
+                        }));
+        EthFilter filter = new EthFilter(
+                DefaultBlockParameterName.EARLIEST,
+                DefaultBlockParameterName.LATEST,
+                contractAddress);
+        filter.addSingleTopic(EventEncoder.encode(event));
+        return web3j.ethLogObservable(filter).subscribe(onNext);
     }
 
 
