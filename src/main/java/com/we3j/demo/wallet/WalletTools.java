@@ -1,10 +1,9 @@
 package com.we3j.demo.wallet;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.we3j.demo.utils.FileUtil;
-import org.web3j.crypto.Bip39Wallet;
-import org.web3j.crypto.CipherException;
-import org.web3j.crypto.Credentials;
-import org.web3j.crypto.WalletUtils;
+import org.web3j.crypto.*;
+import org.web3j.protocol.ObjectMapperFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -100,6 +99,32 @@ public class WalletTools {
         System.out.println("public key=" + publicKey);
         System.out.println("private key=" + privateKey);
         return credentials;
+    }
+
+    /**
+     * 解密keystore 得到私钥
+     *
+     * @param keystore
+     * @param password
+     */
+    public static String decryptWallet(String keystore, String password) {
+        String privateKey = null;
+        ObjectMapper objectMapper = ObjectMapperFactory.getObjectMapper();
+        try {
+            WalletFile walletFile = objectMapper.readValue(keystore, WalletFile.class);
+            ECKeyPair ecKeyPair = null;
+            ecKeyPair = Wallet.decrypt(password, walletFile);
+            privateKey = ecKeyPair.getPrivateKey().toString(16);
+            System.out.println(privateKey);
+        } catch (CipherException e) {
+            if ("Invalid password provided".equals(e.getMessage())) {
+                System.out.println("密码错误");
+            }
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return privateKey;
     }
 
 
