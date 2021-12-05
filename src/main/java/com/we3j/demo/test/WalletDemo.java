@@ -6,6 +6,7 @@ import com.we3j.demo.mona.RandomUtil;
 import com.we3j.demo.mona.RequestUtil;
 import com.we3j.demo.utils.Environment;
 import com.we3j.demo.wallet.WalletTools;
+import com.we3j.demo.wallet.Web3jInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.web3j.crypto.*;
@@ -16,6 +17,7 @@ import org.web3j.protocol.core.methods.response.*;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
+import rx.Subscription;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,8 +52,16 @@ public class WalletDemo {
     private void run1() throws Exception {
         log.info("hello eth,hello web3j");
 
+        Subscription sub = Web3jInfo.connect().transactionObservable().subscribe(tx -> {
+            System.out.println("hash: " + tx.getHash());
+            System.out.println("from: " + tx.getFrom());
+            System.out.println("to: " + tx.getTo());
+            System.out.println("value:"+tx.getValue());
+        });
+
+        //WalletTools.createWallet("d:\\keystore\\abs","d:\\keystore\\abs\\123");
 //        connectETHClient();//连接以太坊客户端
-//        //creatAccount();//创建冷钱包
+//        creatAccount();//创建冷钱包
 //        String privateKey = "";
 //        String keyStoreDir = WalletUtils.getDefaultKeyDirectory();
 //        System.out.println("生成keyStore文件的默认目录：" + keyStoreDir);
