@@ -5,6 +5,8 @@ import com.we3j.demo.mona.Constants;
 import com.we3j.demo.mona.RandomUtil;
 import com.we3j.demo.mona.RequestUtil;
 import com.we3j.demo.utils.Environment;
+import com.we3j.demo.wallet.TokenClient;
+import com.we3j.demo.wallet.TransMonitor;
 import com.we3j.demo.wallet.WalletTools;
 import com.we3j.demo.wallet.Web3jInfo;
 import org.slf4j.Logger;
@@ -18,6 +20,7 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
 import rx.Subscription;
+import rx.functions.Action1;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,12 +55,40 @@ public class WalletDemo {
     private void run1() throws Exception {
         log.info("hello eth,hello web3j");
 
-        Subscription sub = Web3jInfo.connect().transactionObservable().subscribe(tx -> {
-            System.out.println("hash: " + tx.getHash());
-            System.out.println("from: " + tx.getFrom());
-            System.out.println("to: " + tx.getTo());
-            System.out.println("value:"+tx.getValue());
-        });
+        Web3j web3j = Web3jInfo.connect();
+       BigInteger total = TokenClient.getTokenTotalSupply(web3j, "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7");
+        System.out.println("loot（0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7） total:" + total);
+//        TransMonitor.getInstance().setWeb3j(web3j);
+//        TransMonitor.getInstance().subscribeBlock(new Action1<EthBlock>() {
+//            @Override
+//            public void call(EthBlock ethBlock) {
+//                System.out.println("block:" + ethBlock.getBlock().getHash() + ",author" + ethBlock.getBlock().getAuthor());
+//            }
+//        });
+//
+//        TransMonitor.getInstance().subscribeHasTrans(new Action1<Transaction>() {
+//            @Override
+//            public void call(Transaction transaction) {
+//                System.out.println("from:" + transaction.getFrom() + ",to" + transaction.getTo());
+//            }
+//        });
+//
+//        TransMonitor.getInstance().subscribePendingTrans(new Action1<Transaction>() {
+//            @Override
+//            public void call(Transaction transaction) {
+//                System.out.println("pending from:" + transaction.getFrom() + ",to" + transaction.getTo()+",gasPrice"+transaction.getGasPrice());
+//            }
+//        });
+
+
+//       BigInteger total = TokenClient.getTokenTotalSupply(Web3jInfo.connect(),"0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7");
+//        System.out.println("loot total:"+total);
+//        Subscription sub = Web3jInfo.connect().transactionObservable().subscribe(tx -> {
+//            System.out.println("hash: " + tx.getHash());
+//            System.out.println("from: " + tx.getFrom());
+//            System.out.println("to: " + tx.getTo());
+//            System.out.println("value:"+tx.getValue());
+//        });
 
         //WalletTools.createWallet("d:\\keystore\\abs","d:\\keystore\\abs\\123");
 //        connectETHClient();//连接以太坊客户端

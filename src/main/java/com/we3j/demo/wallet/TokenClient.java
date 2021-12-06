@@ -12,6 +12,7 @@ import org.web3j.protocol.core.methods.response.EthCall;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -19,7 +20,7 @@ import java.util.concurrent.ExecutionException;
  * @Author jambestwick
  * @create 2021/12/5 0005  21:04
  * @email jambestwick@126.com
- *
+ * <p>
  * ERC20的代币
  */
 public class TokenClient {
@@ -34,6 +35,7 @@ public class TokenClient {
      * @return
      */
     public static BigInteger getTokenTotalSupply(Web3j web3j, String contractAddress) {
+        if (web3j == null) return null;
         String methodName = "totalSupply";
         String fromAddr = emptyAddress;
         BigInteger totalSupply = BigInteger.ZERO;
@@ -59,5 +61,33 @@ public class TokenClient {
         }
         return totalSupply;
     }
+
+
+    /****
+     * 调用claim方法抢NFT Token
+     * ***/
+    public static boolean claimNFT(Web3j web3j, String contractAddress, Integer tokenId) {
+        if (web3j == null) return false;
+        String methodName = "claim";
+        String fromAddr = emptyAddress;
+        Function function = new Function(
+                methodName,
+                Arrays.asList(new Uint256(tokenId)),
+                Arrays.asList(new TypeReference<Type>() {
+                }));
+
+        String data = FunctionEncoder.encode(function);
+        Transaction transaction = Transaction.createEthCallTransaction(fromAddr, contractAddress, data);
+
+        EthCall ethCall;
+        try {
+            ethCall = web3j.ethCall(transaction, DefaultBlockParameterName.LATEST).sendAsync().get();
+            //List<Type> results = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
 
 }

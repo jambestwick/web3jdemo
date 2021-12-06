@@ -116,6 +116,11 @@ public class TransMonitor {
         return web3j.ethLogObservable(filter).subscribe(onNext);
     }
 
+    public void unsubscribeContract(Subscription subscription){
+        if (this.web3j == null) return;
+        subscription.unsubscribe();
+    }
+
 
 
 
