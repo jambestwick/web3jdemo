@@ -1,10 +1,14 @@
 package com.we3j.demo.test;
 
+import com.we3j.demo.etherscan_api.Endpoint;
+import com.we3j.demo.etherscan_api.params.accounts.AccountAPI;
+import com.we3j.demo.etherscan_api.params.accounts.AccountAPIImpl;
 import com.we3j.demo.mona.BuildInviteCodeRequest;
 import com.we3j.demo.mona.Constants;
 import com.we3j.demo.mona.RandomUtil;
 import com.we3j.demo.mona.RequestUtil;
 import com.we3j.demo.utils.Environment;
+import com.we3j.demo.utils.OKHttpUtil;
 import com.we3j.demo.wallet.TokenClient;
 import com.we3j.demo.wallet.TransMonitor;
 import com.we3j.demo.wallet.WalletTools;
@@ -56,8 +60,14 @@ public class WalletDemo {
         log.info("hello eth,hello web3j");
 
         Web3j web3j = Web3jInfo.connect();
-       BigInteger total = TokenClient.getTokenTotalSupply(web3j, "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7");
+        BigInteger total = TokenClient.getTokenTotalSupply(web3j, "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7");
         System.out.println("loot（0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7） total:" + total);
+
+        AccountAPI accountAPI = new AccountAPIImpl();
+        String res = accountAPI.getSingleAddressBalance("", "0x661a60cdC8434611E65f51065EC246Bf0bA31EbF");
+        System.out.println("user balance:" + res);
+
+
 //        TransMonitor.getInstance().setWeb3j(web3j);
 //        TransMonitor.getInstance().subscribeBlock(new Action1<EthBlock>() {
 //            @Override
