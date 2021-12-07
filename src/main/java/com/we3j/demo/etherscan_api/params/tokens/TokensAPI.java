@@ -7,6 +7,7 @@ package com.we3j.demo.etherscan_api.params.tokens;
  * *
  */
 public interface TokensAPI {
+
     String getTokenTotalSupplyByContractAddress(String api, String contractAddress);
 
     String getTokenAccountBalanceForTokenContractAddress(String api, String contractAddress, String address);

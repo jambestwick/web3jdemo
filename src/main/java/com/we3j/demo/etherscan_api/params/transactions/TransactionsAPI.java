@@ -7,7 +7,7 @@ package com.we3j.demo.etherscan_api.params.transactions;
  * *
  */
 public interface TransactionsAPI {
-    String checkContractExecutionStatus(String api, String contractAddress);
+    String checkContractExecutionStatus(String api, String txHash);
 
     String checkTransactionReceiptStatus(String api, String txHash);
 
