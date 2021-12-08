@@ -4,6 +4,7 @@ import com.we3j.demo.etherscan_api.key.ApiKey;
 import com.we3j.demo.etherscan_api.params.accounts.AccountAPI;
 import com.we3j.demo.etherscan_api.response.ApiResponse;
 import com.we3j.demo.utils.Environment;
+import com.we3j.demo.wallet.NFTMonitor;
 import com.we3j.demo.wallet.TokenClient;
 import com.we3j.demo.wallet.TransMonitor;
 import com.we3j.demo.wallet.Web3jInfo;
@@ -32,6 +33,8 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @Author jambestwick
@@ -73,6 +76,34 @@ public class WalletDemo {
                 }
             }
         });
+        NFTMonitor.getInstance().setWeb3j(web3j);
+        /***
+         * Loot的合约
+         *
+         * ***/
+        NFTMonitor.getInstance().subscribeClaim("0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7", new Action1<Log>() {
+            @Override
+            public void call(Log log) {
+                /**
+                 * 这些tokeniD已经被抢走了，抢还没有claim的
+                 *
+                 * **/
+                System.out.println("transBlockNo:" + log.getBlockNumber());
+                System.out.println("transHash:" + log.getTransactionHash());
+
+            }
+        });
+
+
+
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                //根据当前已出现的ID，找出还没出现在的,还未实现只是例子
+                TokenClient.claimNFT(web3j, "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7", 9527);
+            }
+        }, 0L, 1000L);//每秒执行抢NFT逻辑
+
 //        TransMonitor.getInstance().setWeb3j(web3j);
 //        TransMonitor.getInstance().subscribeBlock(new Action1<EthBlock>() {
 //            @Override
