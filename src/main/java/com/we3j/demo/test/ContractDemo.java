@@ -45,6 +45,12 @@ public class ContractDemo {
     }
 
     private void run() {
+        try {
+            connectETHClient();
+            listenContract("0x4c1ae77bc2df45fb68b13fa1b4f000305209b0cb");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

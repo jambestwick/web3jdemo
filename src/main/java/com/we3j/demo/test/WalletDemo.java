@@ -5,6 +5,7 @@ import com.we3j.demo.etherscan_api.params.accounts.AccountAPI;
 import com.we3j.demo.etherscan_api.response.ApiResponse;
 import com.we3j.demo.utils.Environment;
 import com.we3j.demo.wallet.TokenClient;
+import com.we3j.demo.wallet.TransMonitor;
 import com.we3j.demo.wallet.Web3jInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,10 +16,13 @@ import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
+import org.web3j.tx.Contract;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
+import rx.functions.Action1;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +31,7 @@ import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
+import java.util.List;
 
 /**
  * @Author jambestwick
@@ -55,6 +60,19 @@ public class WalletDemo {
         Web3j web3j = Web3jInfo.connect();
         BigInteger total = TokenClient.getTokenTotalSupply(web3j, "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7");
         System.out.println("loot（0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7） total:" + total);
+
+        TransMonitor.getInstance().setWeb3j(web3j);
+        TransMonitor.getInstance().subscribeContract("0x1f9840a85d5af5bf1d1762f925bdaddc4201f984", new Action1<Log>() {
+            @Override
+            public void call(Log log) {
+                System.out.println("transBlockNo:" + log.getBlockNumber());
+                System.out.println("transHash:" + log.getTransactionHash());
+                List<String> topics = log.getTopics();
+                for (String topic : topics) {
+                    System.out.println("transTopic:" + topic);
+                }
+            }
+        });
 //        TransMonitor.getInstance().setWeb3j(web3j);
 //        TransMonitor.getInstance().subscribeBlock(new Action1<EthBlock>() {
 //            @Override

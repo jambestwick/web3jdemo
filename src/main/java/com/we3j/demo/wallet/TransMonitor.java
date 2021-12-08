@@ -7,6 +7,7 @@ import org.web3j.abi.datatypes.Event;
 import org.web3j.abi.datatypes.Uint;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.protocol.Web3j;
+import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.EthFilter;
 import org.web3j.protocol.core.methods.response.EthBlock;
@@ -15,6 +16,7 @@ import org.web3j.protocol.core.methods.response.Transaction;
 import rx.Subscription;
 import rx.functions.Action1;
 
+import java.math.BigInteger;
 import java.util.Arrays;
 
 /**
@@ -92,36 +94,33 @@ public class TransMonitor {
 
     /**
      * 监听合约的交易事件
-     * **/
+     **/
     public Subscription subscribeContract(String contractAddress, final Action1<? super Log> onNext) {
         if (this.web3j == null) return null;
 
         // 要监听的合约事件 交易
+        EthFilter filter = new EthFilter(
+                DefaultBlockParameter.valueOf(BigInteger.valueOf(13763721L)),
+                DefaultBlockParameterName.LATEST,
+                contractAddress);
         Event event = new Event("Transfer",
-
-                Arrays.asList(
+                Arrays.<TypeReference<?>>asList(
                         new TypeReference<Address>(true) {
                         },
-
                         new TypeReference<Address>(true) {
                         },
 
                         new TypeReference<Uint256>(false) {
                         }));
-        EthFilter filter = new EthFilter(
-                DefaultBlockParameterName.EARLIEST,
-                DefaultBlockParameterName.LATEST,
-                contractAddress);
+
         filter.addSingleTopic(EventEncoder.encode(event));
         return web3j.ethLogObservable(filter).subscribe(onNext);
     }
 
-    public void unsubscribeContract(Subscription subscription){
+    public void unsubscribeContract(Subscription subscription) {
         if (this.web3j == null) return;
         subscription.unsubscribe();
     }
-
-
 
 
 }
