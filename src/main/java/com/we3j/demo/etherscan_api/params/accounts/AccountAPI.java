@@ -1,8 +1,11 @@
 package com.we3j.demo.etherscan_api.params.accounts;
 
+import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitClient;
+import com.we3j.demo.etherscan_api.params.BaseAPI;
 import com.we3j.demo.etherscan_api.params.Sort;
-
-import java.util.List;
+import com.we3j.demo.etherscan_api.response.ApiResponse;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * * Created by jambestwick@126.com
@@ -10,7 +13,7 @@ import java.util.List;
  * {@link [document-account] https://docs.etherscan.io/api-endpoints/accounts}
  * *
  */
-public interface AccountAPI {
+public interface AccountAPI extends BaseAPI {
     /**
      * eg.
      * "module=account\n" +
@@ -20,36 +23,42 @@ public interface AccountAPI {
      * "   &apikey=YourApiKeyToken";
      */
     //public static final String Single_Address_Ether_Balance ;
-    String getSingleAddressBalance(String api, String address);
+    @GET("api")
+    ApiResponse getSingleAddressBalance(@Query("module") String api, @Query("action") String action, @Query("address") String address, @Query("tag") String tag, @Query("apikey") String apiKey);
 
-    String getMultipleAddressBalance(String api, String... address);
+    @GET("api")
+    String getMultipleAddressBalance(@Query("module") String api, @Query("action") String action, @Query("address") String addresses, @Query("tag") String tag, @Query("apikey") String apiKey);
 
-    String getMultipleAddressBalance(String api, List<String>... address);
-
-    String getListTransactionByAddress(String api, String address);
 
     /**
-     * @param records maximum of 10000 records only
+     * @return records maximum of 10000 records only
      */
-    String getListNormalTransactionByAddress(String api, int records, String address, Sort sort);
+    @GET("api")
+    String getListNormalTransactionByAddress(@Query("module") String api, @Query("action") String action, @Query("address") String address, @Query("startblock") long startBlock, @Query("endblock") long endBlock, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
     /**
-     * @param records maximum of 10000 records only
+     * @return records maximum of 10000 records only
      */
-    String getListInternalTransactionByAddress(String api, int records, String address, Sort sort);
+    @GET("api")
+    String getListInternalTransactionByAddress(@Query("module") String api, @Query("action") String action, @Query("address") String address, @Query("startblock") long startBlock, @Query("endblock") long endBlock, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
+    @GET("api")
+    String getListInternalTransactionByHash(@Query("module") String api, @Query("action") String action, @Query("txhash") String transHash, @Query("apikey") String apiKey);
 
-    String getListInternalTransactionByHash(String api, String transHash);
+    @GET("api")
+    String getListInternalTransactionByBlockRange(@Query("module") String api, @Query("action") String action, @Query("startblock") long startBlock, @Query("endblock") long endBlock, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
-    String getListInternalTransactionByBlockRange(String api, long startBlock, long endBlock,Sort sort);
+    @GET("api")
+    String getContractTransactionByAddress(@Query("module") String api, @Query("action") String action, @Query("contractaddress") String contractAddress, @Query("address") String walletAddress, @Query("startblock") long startBlock, @Query("endblock") long endBlock, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
-    String getContractTransactionByAddress(String api, String contractAddress, String walletAddress,long startBlock, long endBlock,Sort sort);
+    @GET("api")
+    String getNFTTransactionByAddress(@Query("module") String api, @Query("action") String action, @Query("contractaddress") String contractAddress, @Query("address") String walletAddress, @Query("startblock") long startBlock, @Query("endblock") long endBlock, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
-    String getNFTTransactionByAddress(String api, String contractAddress, String walletAddress,long startBlock, long endBlock,Sort sort);
+    @GET("api")
+    String getListMinedByAddress(@Query("module") String api, @Query("action") String action, @Query("address") String walletAddress, @Query("blocktype") String blockType, @Query("apikey") String apiKey);
 
-    String getListMinedByAddress(String api, String walletAddress);
-
-    String getHistoricalBalanceByBlockNoAddress(String api, long blockNo, String walletAddress);
+    @GET("api")
+    String getHistoricalBalanceByBlockNoAddress(@Query("module") String api, @Query("action") String action, @Query("blockno") long blockNo, @Query("address") String walletAddress, @Query("apikey") String apiKey);
 
 
 }

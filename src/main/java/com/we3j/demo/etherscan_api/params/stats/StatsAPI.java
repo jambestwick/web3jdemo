@@ -1,6 +1,9 @@
 package com.we3j.demo.etherscan_api.params.stats;
 
+import com.we3j.demo.etherscan_api.params.BaseAPI;
 import com.we3j.demo.etherscan_api.params.Sort;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * @Author jambestwick
@@ -8,32 +11,43 @@ import com.we3j.demo.etherscan_api.params.Sort;
  * @email jambestwick@126.com
  * * {@link [stats-api] https://docs.etherscan.io/api-endpoints/stats-1}
  */
-public interface StatsAPI {
+public interface StatsAPI extends BaseAPI {
 
+    @GET("api")
+    String getTotalSupplyEther(@Query("module") String api, @Query("action") String action, @Query("apikey") String apiKey);
 
-    String getTotalSupplyEther(String api);
+    @GET("api")
+    String getTotalSupplyEther2(@Query("module") String api, @Query("action") String action, @Query("apikey") String apiKey);
 
-    String getTotalSupplyEther2(String api);
+    @GET("api")
+    String getEtherLastPrice(@Query("module") String api, @Query("action") String action, @Query("apikey") String apiKey);
 
-    String getEtherLastPrice(String api);
+    @GET("api")
+    String getEtherNodesSize(@Query("module") String api, @Query("action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("clienttype") String clientType, @Query("syncmode") String syncMode, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
-    String getEtherNodesSize(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getTotalNodesCount(@Query("module") String api, @Query("action") String action, @Query("apikey") String apiKey);
 
-    String getTotalNodesCount(String api);
+    @GET("api")
+    String getDailyTxnFee(@Query("module") String api, @Query("action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
-    String getDailyTxnFee(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getDailyNewAddressCount(@Query("module") String api, @Query("action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
-    String getDailyNewAddressCount(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getDailyNetUtilization(@Query("module") String api, @Query("action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
-    String getDailyNetUtilization(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getDailyAverageHashRate(@Query("module") String api, @Query("action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
-    String getDailyAverageHashRate(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getDailyTxCount(@Query("module") String api, @Query("action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
-    String getDailyTxCount(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getDailyAverageNetDifficulty(@Query("module") String api, @Query("action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
-    String getDailyAverageNetDifficulty(String api, String startDate, String endDate, Sort sort);
-
-    String getEtherDailyPrice(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getEtherDailyPrice(@Query("module") String api, @Query("action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
 
 }

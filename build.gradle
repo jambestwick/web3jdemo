@@ -22,7 +22,7 @@ apply plugin: 'org.springframework.boot'
 sourceCompatibility = 1.8
 
 repositories {
-    maven{ url 'http://maven.aliyun.com/nexus/content/groups/public/' }
+    maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     mavenCentral()
     mavenLocal()
 }
@@ -32,6 +32,7 @@ dependencies {
             "org.springframework.boot:spring-boot-starter-web",
             "org.springframework.boot:spring-boot-starter-aop",
             "org.springframework.boot:spring-boot-starter-websocket"
+
     )
     compile "org.web3j:core:3.6.0"
     compile "org.web3j:geth:3.6.0"
@@ -39,8 +40,11 @@ dependencies {
     compile "ch.qos.logback:logback-core:1.2.3"
     compile "ch.qos.logback:logback-classic:1.2.3"
     testCompile "junit:junit:4.12"
-    compile 'com.squareup.okhttp3:okhttp:4.9.0'
+    // https://mvnrepository.com/artifact/com.squareup.retrofit2/retrofit
+// https://mvnrepository.com/artifact/com.github.lianjiatech/retrofit-spring-boot-starter
+    compile 'com.github.lianjiatech:retrofit-spring-boot-starter:2.2.17'
     compile 'com.alibaba:fastjson:1.2.78'
+    compile group: 'org.apache.shiro', name: 'shiro-spring', version: '1.4.0'
     testCompile group: 'junit', name: 'junit', version: '4.12'
     testCompile('org.springframework.boot:spring-boot-starter-test')
 }

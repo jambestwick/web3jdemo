@@ -1,30 +1,24 @@
 package com.we3j.demo.test;
 
-import com.we3j.demo.etherscan_api.Endpoint;
+import com.we3j.demo.etherscan_api.key.ApiKey;
 import com.we3j.demo.etherscan_api.params.accounts.AccountAPI;
-import com.we3j.demo.etherscan_api.params.accounts.AccountAPIImpl;
-import com.we3j.demo.mona.BuildInviteCodeRequest;
-import com.we3j.demo.mona.Constants;
-import com.we3j.demo.mona.RandomUtil;
-import com.we3j.demo.mona.RequestUtil;
+import com.we3j.demo.etherscan_api.response.ApiResponse;
 import com.we3j.demo.utils.Environment;
-import com.we3j.demo.utils.OKHttpUtil;
 import com.we3j.demo.wallet.TokenClient;
-import com.we3j.demo.wallet.TransMonitor;
-import com.we3j.demo.wallet.WalletTools;
 import com.we3j.demo.wallet.Web3jInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.web3j.crypto.*;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.admin.Admin;
 import org.web3j.protocol.core.DefaultBlockParameter;
-import org.web3j.protocol.core.methods.response.*;
+import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
-import rx.Subscription;
-import rx.functions.Action1;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,9 +27,6 @@ import java.math.BigInteger;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
-import java.util.Scanner;
-import java.util.concurrent.Executors;
 
 /**
  * @Author jambestwick
@@ -43,6 +34,7 @@ import java.util.concurrent.Executors;
  * @email jambestwick1988@gmail.com
  */
 
+@Service
 public class WalletDemo {
 
     private static final Logger log = LoggerFactory.getLogger(WalletDemo.class);
@@ -50,6 +42,7 @@ public class WalletDemo {
     private Credentials credentials;
     String tempAddress;
     private HttpService httpService;
+
 
     public static void main(String[] args) throws Exception {
         new WalletDemo().run1();
@@ -62,12 +55,6 @@ public class WalletDemo {
         Web3j web3j = Web3jInfo.connect();
         BigInteger total = TokenClient.getTokenTotalSupply(web3j, "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7");
         System.out.println("loot（0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7） total:" + total);
-
-        AccountAPI accountAPI = new AccountAPIImpl();
-        String res = accountAPI.getSingleAddressBalance("", "0x661a60cdC8434611E65f51065EC246Bf0bA31EbF");
-        System.out.println("user balance:" + res);
-
-
 //        TransMonitor.getInstance().setWeb3j(web3j);
 //        TransMonitor.getInstance().subscribeBlock(new Action1<EthBlock>() {
 //            @Override

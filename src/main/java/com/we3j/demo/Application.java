@@ -1,5 +1,8 @@
 package com.we3j.demo;
+
+import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitScan;
 import com.we3j.demo.test.WalletDemo;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
@@ -13,15 +16,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 7 观察智能合约event
  */
 @SpringBootApplication
+@RetrofitScan("com.web3j.demo.controller")
 public class Application {
-    public static void main(String[] args) throws Exception {
-//        SpringApplication app = new SpringApplication(Application.class);
-//        ConfigurableApplicationContext context = app.run();
-//        context.start();
-        WalletDemo.main(args);
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
     }
-
-
 
 
 }

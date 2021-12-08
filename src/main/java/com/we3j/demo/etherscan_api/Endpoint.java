@@ -8,19 +8,19 @@ package com.we3j.demo.etherscan_api;
 public class Endpoint {
 
     //https://docs.etherscan.io
-    public static String MAIN_NET = "https://api.etherscan.io/api";
+    public static String MAIN_NET = "https://api.etherscan.io/";
 
     //https://docs.etherscan.io/v/goerli-etherscan
-    public static String GOERLI = "https://api-goerli.etherscan.io/api";
+    public static String GOERLI = "https://api-goerli.etherscan.io/";
 
     //https://docs.etherscan.io/v/kovan-etherscan
-    public static String KOVAN = "https://api-kovan.etherscan.io/api";
+    public static String KOVAN = "https://api-kovan.etherscan.io/";
 
     //https://docs.etherscan.io/v/rinkeby-etherscan
-    public static String RINKEBY = "https://api-rinkeby.etherscan.io/api";
+    public static String RINKEBY = "https://api-rinkeby.etherscan.io/";
 
     //https://docs.etherscan.io/v/ropsten-etherscan
-    public static String ROPSTEN = "https://api-ropsten.etherscan.io/api";
+    public static String ROPSTEN = "https://api-ropsten.etherscan.io/";
 
 }
 

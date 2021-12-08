@@ -1,6 +1,9 @@
 package com.we3j.demo.etherscan_api.params.blocks;
 
+import com.we3j.demo.etherscan_api.params.BaseAPI;
 import com.we3j.demo.etherscan_api.params.Sort;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * * Created by jambestwick@126.com
@@ -8,46 +11,53 @@ import com.we3j.demo.etherscan_api.params.Sort;
  * {@link [blocks-api] https://docs.etherscan.io/api-endpoints/blocks}
  * *
  */
-public interface BlocksAPI {
-    String getBlockAndUncleRewardsByBlockNo(String api, long blockNo);
+public interface BlocksAPI extends BaseAPI {
+    @GET("api")
+    String getBlockAndUncleRewardsByBlockNo(@Query("module") String api, @Query(value = "action") String action, @Query("blockno") long blockNo, @Query("apikey") String apiKey);
 
-    String getEstimatedBlockCountdownTimeByBlockNo(String api, long blockNo);
-
-    /**
-     * @param timestamp
-     * @param blockOrder before or after timestamp
-     **/
-    String getBlockNumberByTimestamp(String api, long timestamp, BlockOrder blockOrder);
+    @GET("api")
+    String getEstimatedBlockCountdownTimeByBlockNo(@Query("module") String api, @Query(value = "action") String action, @Query("blockno") long blockNo, @Query("apikey") String apiKey);
 
     /**
-     * @param startDate format eg.2019-02-01
-     * @param endDate   format eg.2019-02-15
+     * @param timestamp blockOrder before or after timestamp
      **/
-    String getDailyAverageBlockSize(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getBlockNumberByTimestamp(@Query("module") String api, @Query(value = "action") String action, @Query("timestamp") long timestamp, @Query("closest") BlockOrder closest, @Query("apikey") String apiKey);
 
     /**
      * @param startDate format eg.2019-02-01
      * @param endDate   format eg.2019-02-15
      **/
-    String getDailyBlockCountAndRewards(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getDailyAverageBlockSize(@Query("module") String api, @Query(value = "action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
     /**
      * @param startDate format eg.2019-02-01
      * @param endDate   format eg.2019-02-15
      **/
-    String getDailyBlockRewards(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getDailyBlockCountAndRewards(@Query("module") String api, @Query(value = "action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
     /**
      * @param startDate format eg.2019-02-01
      * @param endDate   format eg.2019-02-15
      **/
-    String getDailyAverageBlockTime(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getDailyBlockRewards(@Query("module") String api, @Query(value = "action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
     /**
      * @param startDate format eg.2019-02-01
      * @param endDate   format eg.2019-02-15
      **/
-    String getDailyUncleBlockCountAndRewards(String api, String startDate, String endDate, Sort sort);
+    @GET("api")
+    String getDailyAverageBlockTime(@Query("module") String api, @Query(value = "action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
+
+    /**
+     * @param startDate format eg.2019-02-01
+     * @param endDate   format eg.2019-02-15
+     **/
+    @GET("api")
+    String getDailyUncleBlockCountAndRewards(@Query("module") String api, @Query(value = "action") String action, @Query("startdate") String startDate, @Query("enddate") String endDate, @Query("sort") Sort sort, @Query("apikey") String apiKey);
 
 
 }
