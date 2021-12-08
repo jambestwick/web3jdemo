@@ -18,5 +18,8 @@
 ## 说明文档
 持续更新中......
 
+原博客 http://blog.csdn.net/baidu_30084597
+现博客 https://blog.csdn.net/weixin_41602901
+
 
 
