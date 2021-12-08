@@ -96,6 +96,7 @@ public class WalletDemo {
 
 
 
+        //轮巡器，或者job定时任务，抢NFT
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
