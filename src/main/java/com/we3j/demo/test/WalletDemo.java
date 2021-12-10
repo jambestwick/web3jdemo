@@ -23,6 +23,7 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Contract;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
+import retrofit2.Retrofit;
 import rx.functions.Action1;
 
 import java.io.File;
@@ -59,6 +60,8 @@ public class WalletDemo {
 
     private void run1() throws Exception {
         log.info("hello eth,hello web3j");
+
+
 
         Web3j web3j = Web3jInfo.connect();
         BigInteger total = TokenClient.getTokenTotalSupply(web3j, "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7");

@@ -1,5 +1,6 @@
 package com.we3j.demo.etherscan_api.params.contracts;
 
+import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitClient;
 import com.we3j.demo.etherscan_api.params.BaseAPI;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -10,6 +11,7 @@ import retrofit2.http.Query;
  * {@link [contract-api] https://docs.etherscan.io/api-endpoints/contracts}
  * *
  */
+@RetrofitClient(baseUrl = "${base.url}")
 public interface ContractAPI extends BaseAPI {
     @GET("api")
     String getContractABI(@Query("module") String api, @Query("action") String action, @Query("address") String contractAddress, @Query("apikey") String apiKey);

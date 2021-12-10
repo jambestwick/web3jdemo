@@ -1,5 +1,6 @@
 package com.we3j.demo.etherscan_api.params.blocks;
 
+import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitClient;
 import com.we3j.demo.etherscan_api.params.BaseAPI;
 import com.we3j.demo.etherscan_api.params.Sort;
 import retrofit2.http.GET;
@@ -11,6 +12,7 @@ import retrofit2.http.Query;
  * {@link [blocks-api] https://docs.etherscan.io/api-endpoints/blocks}
  * *
  */
+@RetrofitClient(baseUrl = "${base.url}")
 public interface BlocksAPI extends BaseAPI {
     @GET("api")
     String getBlockAndUncleRewardsByBlockNo(@Query("module") String api, @Query(value = "action") String action, @Query("blockno") long blockNo, @Query("apikey") String apiKey);

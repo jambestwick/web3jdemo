@@ -1,5 +1,6 @@
 package com.we3j.demo.etherscan_api.params.tokens;
 
+import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitClient;
 import com.we3j.demo.etherscan_api.params.BaseAPI;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -10,6 +11,7 @@ import retrofit2.http.Query;
  * {@link [tokens-api] https://docs.etherscan.io/api-endpoints/tokens}
  * *
  */
+@RetrofitClient(baseUrl = "${base.url}")
 public interface TokensAPI extends BaseAPI {
 
     @GET("api")

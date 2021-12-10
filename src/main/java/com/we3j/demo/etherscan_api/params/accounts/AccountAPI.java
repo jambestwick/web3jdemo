@@ -13,6 +13,7 @@ import retrofit2.http.Query;
  * {@link [document-account] https://docs.etherscan.io/api-endpoints/accounts}
  * *
  */
+@RetrofitClient(baseUrl = "${base.url}")
 public interface AccountAPI extends BaseAPI {
     /**
      * eg.

@@ -1,5 +1,6 @@
 package com.we3j.demo.etherscan_api.params.gas_tracker;
 
+import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitClient;
 import com.we3j.demo.etherscan_api.params.BaseAPI;
 import com.we3j.demo.etherscan_api.params.Sort;
 import retrofit2.http.GET;
@@ -11,6 +12,7 @@ import retrofit2.http.Query;
  * @email jambestwick@126.com
  * * {@link [gas-api] https://docs.etherscan.io/api-endpoints/gas-tracker}
  */
+@RetrofitClient(baseUrl = "${base.url}")
 public interface GasTackerAPI extends BaseAPI {
     @GET("api")
     String getEstimationConfirmationTime(@Query("module") String api, @Query("action") String action, @Query("gasprice") long gasPrice, @Query("apikey") String apiKey);//The result is returned in seconds.
