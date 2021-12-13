@@ -32,7 +32,7 @@ public class TestController {
     @ResponseBody
     public ApiResponse batchUpdateLabelGPS() {
         try {
-            ApiResponse result = accountAPI.getSingleAddressBalance("account", "balance", "0x661a60cdC8434611E65f51065EC246Bf0bA31EbF", "latest", ApiKey.KEY);
+            ApiResponse result = accountAPI.getSingleAddressBalance("account", "balance", "0x0fb6160F1738ee5243cB3ED421dc0CEa2cf1C0D4", "latest", ApiKey.KEY);
             System.out.println("res:" + result);
             return null;
         } catch (Exception e) {

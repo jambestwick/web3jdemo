@@ -15,7 +15,8 @@
     8 观察智能合约event
     9 账号的锁定与解锁
     10 批量生成钱包助记词，逐行保存文件
-    11.合约函数调用
+    11.完善合约函数调用approve，transfer,transferForm等
+    12.增加Approve,Transfer Event监听
 ## 说明文档
 持续更新中......
 
