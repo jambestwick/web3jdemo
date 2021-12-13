@@ -194,6 +194,52 @@ public class TokenClient {
     }
 
 
+    /***********
+     * A允许B从A那里转多少钱给C，
+     * 先用A调用approve方法，传入B账户；
+     * 然后调用transferFrom方法，from参数传A账户，to参数传B账户，最后账户地址要改为B的账户来调用
+     * ****************/
+    public static boolean transferForm(Web3j web3j,
+                                       Credentials credentials,
+                                       String from,
+                                       String to,
+                                       BigInteger value,
+                                       String contractAddress) throws ExecutionException, IOException, InterruptedException {
+        //获取nonce，交易笔数
+        BigInteger nonce = NormalUtil.getNonce(web3j, from);
+        //get gasPrice
+        BigInteger gasPrice = NormalUtil.requestCurrentGasPrice(web3j);
+        BigInteger gasLimit = Contract.GAS_LIMIT;
+        //创建RawTransaction交易对象
+        try {
+            Function function = new Function(
+                    "transferForm",
+                    Arrays.asList(new Address(from), new Address(to), new Uint256(value)),
+                    Arrays.asList(new TypeReference<Type>() {
+                    }));
+
+            String encodedFunction = FunctionEncoder.encode(function);
+
+            RawTransaction rawTransaction = RawTransaction.createTransaction(nonce,
+                    gasPrice,
+                    gasLimit,
+                    contractAddress, encodedFunction);
+
+
+            //签名Transaction，这里要对交易做签名
+            byte[] signMessage = TransactionEncoder.signMessage(rawTransaction, credentials);
+            String hexValue = Numeric.toHexString(signMessage);
+            //异步发送交易
+            EthSendTransaction send = web3j.ethSendRawTransaction(hexValue).sendAsync().get();
+
+            return true;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
 
     /****
