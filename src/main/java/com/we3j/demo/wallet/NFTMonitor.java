@@ -51,8 +51,8 @@ public class NFTMonitor {
         if (this.web3j == null) return null;
         // 要监听的合约事件 交易
         EthFilter filter = new EthFilter(
-                DefaultBlockParameter.valueOf(BigInteger.valueOf(0L)),
-                DefaultBlockParameterName.LATEST,
+                DefaultBlockParameter.valueOf(BigInteger.valueOf(0L)),//监听从0区块
+                DefaultBlockParameterName.LATEST,//到最新的区块
                 contractAddress);
         Event eventClaim = new Event("Transfer",
                 Arrays.<TypeReference<?>>asList(
@@ -61,7 +61,7 @@ public class NFTMonitor {
                         new TypeReference<Address>(true) {
                         },
 
-                        new TypeReference<Uint256>(false) {//tokenId如果有10000个NFT默认从1往上1加
+                        new TypeReference<Uint256>(false) {
                         }));
 
         filter.addSingleTopic(EventEncoder.encode(eventClaim));
@@ -72,6 +72,8 @@ public class NFTMonitor {
         if (this.web3j == null) return;
         subscription.unsubscribe();
     }
+
+
 
 
 

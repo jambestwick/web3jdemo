@@ -1,7 +1,6 @@
 package com.we3j.demo.etherscan_api.params.tokens;
 
 import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitClient;
-import com.we3j.demo.etherscan_api.params.BaseAPI;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -12,7 +11,7 @@ import retrofit2.http.Query;
  * *
  */
 @RetrofitClient(baseUrl = "${base.url}")
-public interface TokensAPI extends BaseAPI {
+public interface TokensAPI {
 
     @GET("api")
     String getTokenTotalSupplyByContractAddress(@Query("module") String api, @Query("action") String action, @Query("contractaddress") String contractAddress, @Query("apikey") String apiKey);
@@ -28,6 +27,5 @@ public interface TokensAPI extends BaseAPI {
 
     @GET("api")
     String getTokenInfoByContractAddress(@Query("module") String api, @Query("action") String action, @Query("contractaddress") String contractAddress, @Query("apikey") String apiKey);
-
 
 }

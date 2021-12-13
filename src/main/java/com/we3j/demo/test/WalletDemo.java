@@ -64,6 +64,9 @@ public class WalletDemo {
 
 
         Web3j web3j = Web3jInfo.connect();
+
+       BigInteger balance = TokenClient.getAddressBalanceOf(web3j,"0xc18360217d8f7ab5e7c516566761ea12ce7f9d72","0x661a60cdC8434611E65f51065EC246Bf0bA31EbF");
+       System.out.println("当前地址ENS的余额:"+balance);
         BigInteger total = TokenClient.getTokenTotalSupply(web3j, "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7");
         System.out.println("loot（0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7） total:" + total);
 

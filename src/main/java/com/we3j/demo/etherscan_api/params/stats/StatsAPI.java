@@ -1,7 +1,6 @@
 package com.we3j.demo.etherscan_api.params.stats;
 
 import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitClient;
-import com.we3j.demo.etherscan_api.params.BaseAPI;
 import com.we3j.demo.etherscan_api.params.Sort;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -13,7 +12,7 @@ import retrofit2.http.Query;
  * * {@link [stats-api] https://docs.etherscan.io/api-endpoints/stats-1}
  */
 @RetrofitClient(baseUrl = "${base.url}")
-public interface StatsAPI extends BaseAPI {
+public interface StatsAPI {
 
     @GET("api")
     String getTotalSupplyEther(@Query("module") String api, @Query("action") String action, @Query("apikey") String apiKey);

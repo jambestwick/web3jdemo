@@ -1,7 +1,6 @@
 package com.we3j.demo.etherscan_api.params.accounts;
 
 import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitClient;
-import com.we3j.demo.etherscan_api.params.BaseAPI;
 import com.we3j.demo.etherscan_api.params.Sort;
 import com.we3j.demo.etherscan_api.response.ApiResponse;
 import retrofit2.http.GET;
@@ -14,7 +13,7 @@ import retrofit2.http.Query;
  * *
  */
 @RetrofitClient(baseUrl = "${base.url}")
-public interface AccountAPI extends BaseAPI {
+public interface AccountAPI {
     /**
      * eg.
      * "module=account\n" +

@@ -1,7 +1,6 @@
 package com.we3j.demo.etherscan_api.params.logs;
 
 import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitClient;
-import com.we3j.demo.etherscan_api.params.BaseAPI;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
@@ -12,7 +11,7 @@ import retrofit2.http.Query;
  * *
  */
 @RetrofitClient(baseUrl = "${base.url}")
-public interface logAPI extends BaseAPI {
+public interface logAPI  {
 
 
     @GET("api")

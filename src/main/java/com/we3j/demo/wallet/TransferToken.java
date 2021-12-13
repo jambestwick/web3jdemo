@@ -147,6 +147,7 @@ public class TransferToken {
     }
 
 
+
     /************************** 批量转账ERC20 Token***************************************/
     public static void transferERC20Batch(Web3j web3j,
                                           Credentials credentials,

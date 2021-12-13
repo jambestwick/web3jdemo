@@ -31,6 +31,9 @@ import rx.functions.Func1;
 /**
  * * Created by jambestwick@126.com
  * * on 2021/12/2
+ * <p>
+ * 对基于 {@link "https://github.com/OpenZeppelin/openzeppelin-contracts" }合约的函数 监听的Demo ，
+ * 读取合约ABI二级制文件BINARY
  * *
  */
 public class TokenERC20 extends Contract {
