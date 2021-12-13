@@ -15,7 +15,8 @@
     8 Observe the smart contract event
     9 lock/unlock account
     10 Generate wallet mnemonics in batches and save files line by line
-    11 call the contract function
+    11 call the contract function approve，transfer,transferForm
+    12.add contract Approve,Transfer Event Listener
 ## Documentation
 continue updating......
 
