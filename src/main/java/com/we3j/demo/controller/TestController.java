@@ -1,10 +1,10 @@
 package com.we3j.demo.controller;
 
-import com.we3j.demo.etherscan_api.key.ApiKey;
-import com.we3j.demo.etherscan_api.params.accounts.AccountAPI;
-import com.we3j.demo.etherscan_api.params.tokens.TokensAPI;
-import com.we3j.demo.etherscan_api.params.transactions.TransactionsAPI;
-import com.we3j.demo.etherscan_api.response.ApiResponse;
+import com.we3j.demo.service.etherscan_api.key.ApiKey;
+import com.we3j.demo.service.etherscan_api.params.accounts.AccountAPI;
+import com.we3j.demo.service.etherscan_api.params.tokens.TokensAPI;
+import com.we3j.demo.service.etherscan_api.params.transactions.TransactionsAPI;
+import com.we3j.demo.service.etherscan_api.response.ApiResponse;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;

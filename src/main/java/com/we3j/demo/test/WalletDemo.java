@@ -1,8 +1,5 @@
 package com.we3j.demo.test;
 
-import com.we3j.demo.etherscan_api.key.ApiKey;
-import com.we3j.demo.etherscan_api.params.accounts.AccountAPI;
-import com.we3j.demo.etherscan_api.response.ApiResponse;
 import com.we3j.demo.utils.Environment;
 import com.we3j.demo.wallet.NFTMonitor;
 import com.we3j.demo.wallet.TokenClient;
@@ -10,7 +7,6 @@ import com.we3j.demo.wallet.TransMonitor;
 import com.we3j.demo.wallet.Web3jInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.*;
 import org.web3j.protocol.Web3j;
@@ -20,10 +16,8 @@ import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.tx.Contract;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
-import retrofit2.Retrofit;
 import rx.functions.Action1;
 
 import java.io.File;
