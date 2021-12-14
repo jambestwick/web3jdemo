@@ -19,6 +19,9 @@
     12.增加Approve,Transfer Event监听
 ## 说明文档
 持续更新中......
+web3j对基础开发者调用不太友好，
+JS版本对开发周期和成本相对比较简单.
+描述上述功能均为组合功能，需要对基础方法有一定了解，设计好流程思路
 
 原博客 http://blog.csdn.net/baidu_30084597
 现博客 https://blog.csdn.net/weixin_41602901
