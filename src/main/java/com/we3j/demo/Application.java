@@ -4,6 +4,7 @@ import com.github.lianjiatech.retrofit.spring.boot.annotation.RetrofitScan;
 import com.we3j.demo.test.WalletDemo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 本案例作为web3j的示例项目
@@ -16,6 +17,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * 7 观察智能合约event
  */
 @SpringBootApplication
+@EnableScheduling
 @RetrofitScan("com.web3j.demo.controller")
 public class Application {
     public static void main(String[] args) {
