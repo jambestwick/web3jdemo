@@ -1,20 +1,27 @@
 package com.we3j.demo.wallet;
 
 import org.web3j.abi.EventEncoder;
+import org.web3j.abi.FunctionEncoder;
 import org.web3j.abi.TypeReference;
 import org.web3j.abi.datatypes.Address;
 import org.web3j.abi.datatypes.Event;
+import org.web3j.abi.datatypes.Function;
+import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.generated.Uint256;
+import org.web3j.crypto.Credentials;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameter;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.request.EthFilter;
+import org.web3j.protocol.core.methods.request.Transaction;
+import org.web3j.protocol.core.methods.response.EthCall;
 import org.web3j.protocol.core.methods.response.Log;
 import rx.Subscription;
 import rx.functions.Action1;
 
 import java.math.BigInteger;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 /**
  * * Created by jambestwick@126.com
@@ -24,6 +31,7 @@ import java.util.Arrays;
 public class NFTMonitor {
     private static NFTMonitor instance;
     private Web3j web3j;
+    private Credentials credentials;
 
     public static NFTMonitor getInstance() {
         if (instance == null) {
@@ -42,6 +50,10 @@ public class NFTMonitor {
 
     public void setWeb3j(Web3j web3j) {
         this.web3j = web3j;
+    }
+
+    public void setCredentials(Credentials credentials) {
+        this.credentials = credentials;
     }
 
     /**
@@ -73,6 +85,66 @@ public class NFTMonitor {
         subscription.unsubscribe();
     }
 
+    private static String emptyAddress = "0x0000000000000000000000000000000000000000";
+
+    /**
+     * 调用NFT的Mint方法根据合约有两种
+     * Function: mint(uint256 _mintAmount)
+     * ，即铸造生成NFT到自己的钱包
+     *
+     * @param amount 你要mint的NFT数量
+     ***/
+    public  boolean mintNFTByAmount(Web3j web3j, String contractAddress, int amount) {
+        if (web3j == null) return false;
+        String methodName = "mint";
+        String fromAddr = emptyAddress;
+        Function function = new Function(
+                methodName,
+                Arrays.asList(new Uint256(amount)),
+                Arrays.asList(new TypeReference<Type>() {
+                }));
+
+        String data = FunctionEncoder.encode(function);
+        Transaction transaction = Transaction.createEthCallTransaction(fromAddr, contractAddress, data);
+
+        EthCall ethCall;
+        try {
+            ethCall = web3j.ethCall(transaction, DefaultBlockParameterName.LATEST).sendAsync().get();
+            //List<Type> results = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+
+    /**
+     * 调用NFT的Mint方法根据合约有两种
+     * Function: mint(address _to, uint256 _mintAmount)
+     ***/
+    public  boolean mintNFTByAmountAndAddress(Web3j web3j, Credentials credentials, String contractAddress, int amount) {
+        if (web3j == null) return false;
+        if (credentials == null) return false;
+        String methodName = "mint";
+        String fromAddr = emptyAddress;
+        Function function = new Function(
+                methodName,
+                Arrays.asList(new Address(credentials.getAddress()), new Uint256(amount)),
+                Arrays.asList(new TypeReference<Type>() {
+                }));
+
+        String data = FunctionEncoder.encode(function);
+        Transaction transaction = Transaction.createEthCallTransaction(fromAddr, contractAddress, data);
+
+        EthCall ethCall;
+        try {
+            ethCall = web3j.ethCall(transaction, DefaultBlockParameterName.LATEST).sendAsync().get();
+            //List<Type> results = FunctionReturnDecoder.decode(ethCall.getValue(), function.getOutputParameters());
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
 
 
 }

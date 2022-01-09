@@ -97,13 +97,13 @@ public class WalletDemo {
 
 
         //轮巡器，或者job定时任务，抢NFT
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                //根据当前已出现的ID，找出还没出现在的,还未实现只是例子
-                TokenClient.claimNFT(web3j, "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7", 9527);
-            }
-        }, 0L, 1000L);//每秒执行抢NFT逻辑
+//        new Timer().schedule(new TimerTask() {
+//            @Override
+//            public void run() {
+//                //根据当前已出现的ID，找出还没出现在的,还未实现只是例子
+//                TokenClient.claimNFT(web3j, "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7", 9527);
+//            }
+//        }, 0L, 1000L);//每秒执行抢NFT逻辑
 
 //        TransMonitor.getInstance().setWeb3j(web3j);
 //        TransMonitor.getInstance().subscribeBlock(new Action1<EthBlock>() {
