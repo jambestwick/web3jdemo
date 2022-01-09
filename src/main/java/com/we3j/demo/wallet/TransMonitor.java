@@ -22,6 +22,9 @@ import java.util.Arrays;
 /**
  * * Created by jambestwick@126.com
  * * on 2021/12/5
+ *
+ * EIP-20 基础定义
+ * https://github.com/ethereum/EIPs/blob/master/EIPS/eip-20.md
  * *
  * 交易监听器
  */
@@ -100,7 +103,7 @@ public class TransMonitor {
 
         // 要监听的合约事件 交易
         EthFilter filter = new EthFilter(
-                DefaultBlockParameter.valueOf(BigInteger.valueOf(13763721L)),
+                DefaultBlockParameter.valueOf(BigInteger.valueOf(0L)),
                 DefaultBlockParameterName.LATEST,
                 contractAddress);
         Event event = new Event("Transfer",
@@ -122,6 +125,39 @@ public class TransMonitor {
         subscription.unsubscribe();
     }
 
+
+    /**
+     * 监听合约授权事件
+     **/
+    public Subscription subscribeApproval(String contractAddress, final Action1<? super Log> onNext) {
+        if (this.web3j == null) return null;
+
+        // 要监听的合约事件 交易
+        EthFilter filter = new EthFilter(
+                DefaultBlockParameter.valueOf(BigInteger.valueOf(0L)),
+                DefaultBlockParameterName.LATEST,
+                contractAddress);
+        Event event = new Event("Approval",
+                Arrays.<TypeReference<?>>asList(
+                        new TypeReference<Address>(true) {//address indexed _owner
+                        },
+                        new TypeReference<Address>(true) {// address indexed _spender
+                        },
+
+                        new TypeReference<Uint256>(false) {//amount
+                        }));
+
+        filter.addSingleTopic(EventEncoder.encode(event));
+        return web3j.ethLogObservable(filter).subscribe(onNext);
+    }
+
+    /**
+     * 取消监听
+     */
+    public void unsubscribeApproval(Subscription subscription) {
+        if (this.web3j == null) return;
+        subscription.unsubscribe();
+    }
 
 
 

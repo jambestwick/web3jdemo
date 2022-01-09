@@ -11,8 +11,6 @@ import java.util.*;
  * <p>邮箱：jambestwick@126.com<p>
  */
 public class TimeUtil {
-    public static final String ACTION_CLOCK_RESET = "ACTION_CLOCK_RESET";
-    public static final String ACTION_DAY_NIGHT_SET = "ACTION_DAY_NIGHT_SET";
     private static final String TAG = TimeUtil.class.getName();
     /**
      * 整型日期格式

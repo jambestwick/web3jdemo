@@ -1,8 +1,5 @@
 package com.we3j.demo.test;
 
-import com.we3j.demo.etherscan_api.key.ApiKey;
-import com.we3j.demo.etherscan_api.params.accounts.AccountAPI;
-import com.we3j.demo.etherscan_api.response.ApiResponse;
 import com.we3j.demo.utils.Environment;
 import com.we3j.demo.wallet.NFTMonitor;
 import com.we3j.demo.wallet.TokenClient;
@@ -10,7 +7,6 @@ import com.we3j.demo.wallet.TransMonitor;
 import com.we3j.demo.wallet.Web3jInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.web3j.crypto.*;
 import org.web3j.protocol.Web3j;
@@ -20,7 +16,6 @@ import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.core.methods.response.Log;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
-import org.web3j.tx.Contract;
 import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
 import rx.functions.Action1;
@@ -60,7 +55,11 @@ public class WalletDemo {
     private void run1() throws Exception {
         log.info("hello eth,hello web3j");
 
+
         Web3j web3j = Web3jInfo.connect();
+
+        BigInteger balance = TokenClient.getAddressBalanceOf(web3j, "0xc18360217d8f7ab5e7c516566761ea12ce7f9d72", "0x0fb6160F1738ee5243cB3ED421dc0CEa2cf1C0D4");
+        System.out.println("当前地址ENS的余额:" + balance);
         BigInteger total = TokenClient.getTokenTotalSupply(web3j, "0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7");
         System.out.println("loot（0xff9c1b15b16263c61d017ee9f65c50e4ae0113d7） total:" + total);
 
@@ -93,7 +92,6 @@ public class WalletDemo {
 
             }
         });
-
 
 
         //轮巡器，或者job定时任务，抢NFT

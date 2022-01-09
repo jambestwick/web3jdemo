@@ -586,6 +586,7 @@ public class FileUtil {
         }
         return resultList;
     }
+
     /***
      * 获取文件夹里的所有在指定时间内的文件
      * **/
@@ -604,7 +605,6 @@ public class FileUtil {
         }
         return resultFile;
     }
-
 
 
 }

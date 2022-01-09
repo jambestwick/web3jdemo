@@ -15,7 +15,7 @@ import java.security.NoSuchProviderException;
 /**
  * * Created by jambestwick@126.com
  * * on 2021/12/4
- * *
+ * * about some method create and load wallet
  */
 public class WalletTools {
 
@@ -23,7 +23,7 @@ public class WalletTools {
         FileUtil.createOrExistsDir(new File(filePath));
         Bip39Wallet bip39Wallet = WalletUtils.generateBip39Wallet("", new File(filePath));//助记词钱包生成
         bip39Wallet.getMnemonic();
-        System.out.println("生成助记词:" + bip39Wallet.getMnemonic());
+        System.out.println("生成助记词, generate mnemonic:" + bip39Wallet.getMnemonic());
         return FileUtil.writeFileFromLineString(new File(destFile), bip39Wallet.getMnemonic(), true);
     }
 
@@ -42,6 +42,7 @@ public class WalletTools {
 
     /**
      * return fileName
+     *
      **/
     public static String createWalletFull(String password, String destFile) throws CipherException, InvalidAlgorithmParameterException, NoSuchAlgorithmException, NoSuchProviderException, IOException {
         FileUtil.createOrExistsDir(new File(destFile));
@@ -57,6 +58,7 @@ public class WalletTools {
     }
 
     /**
+     *根据私钥文件路径加载钱包
      *
      **/
     public static Credentials loadWallet(String password, String walletFilePath) throws IOException, CipherException {
@@ -89,6 +91,10 @@ public class WalletTools {
         return credentials;
     }
 
+    /**
+     * 根据私钥加载钱包
+     *
+     * **/
     public static Credentials loadWalletByPrivateKey(String inputPrivateKey) {
         Credentials credentials = Credentials.create(inputPrivateKey);
         String address = credentials.getAddress();

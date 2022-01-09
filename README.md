@@ -1,4 +1,6 @@
 ## 简介
+[![](https://jitpack.io/v/jambestwick/web3jdemo.svg)](https://jitpack.io/#jambestwick/web3jdemo)
+### **[english doc](https://github.com/jambestwick/we3jdemo/blob/master/README.EN.MD)**
 # 基础web3j基础上手款Demo 持续更新，做到web3j无脑交易 套利第一工具，自动买卖、跟单、追踪机构地址、设置利润点、设置价格、抢跑区块等... ...
 
 1. 代码开源。
@@ -14,9 +16,13 @@
     8 观察智能合约event
     9 账号的锁定与解锁
     10 批量生成钱包助记词，逐行保存文件
-    11.合约函数调用
+    11.完善合约函数调用approve，transfer,transferForm等
+    12.增加Approve,Transfer Event监听
 ## 说明文档
 持续更新中......
+web3j对基础开发者调用不太友好，
+JS版本对开发周期和成本相对比较简单.
+描述上述功能均为组合功能，需要对基础方法有一定了解，设计好流程思路
 
 原博客 http://blog.csdn.net/baidu_30084597
 现博客 https://blog.csdn.net/weixin_41602901
