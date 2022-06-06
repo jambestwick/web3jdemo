@@ -9,5 +9,5 @@ package com.we3j.demo.utils;
  * *
  */
 public class Environment {
-    public static final String RPC_URL = "https://mainnet.infura.io/v3/9eb78bae70c34116a2b28db3fdb96dd0";
+    public static final String RPC_URL = "https://mainnet.infura.io/v3/9eb78bae70c34116a2b28db3fdb96dd0";//config your endpoint regesiter on infura.io 
 }
