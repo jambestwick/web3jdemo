@@ -69,15 +69,6 @@ public class TimeUtil {
         return str2Date(str, format).getTime();
     }
 
-    /**
-     * Created by jambestwick@126.com
-     * on 2018/3/22
-     * 将日期转换成字符串
-     *
-     * @param date    转换日期
-     * @param formart 转换格式
-     * @return
-     */
     public static String date2Str(Date date, String formart) {
         SimpleDateFormat sdf = new SimpleDateFormat(formart);
         return sdf.format(date);
@@ -181,14 +172,14 @@ public class TimeUtil {
     }
 
 
-    //生成设备界面日期字符串
+
     public static String getDay() {
         Date day = new Date();
         SimpleDateFormat df = new SimpleDateFormat(INTEGER_DATE_FORMAT);
         return df.format(day);
     }
 
-    //生成设备界面日期字符串
+
     public static String getDate() {
         Date day = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
