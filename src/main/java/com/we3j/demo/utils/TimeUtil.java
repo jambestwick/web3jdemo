@@ -16,26 +16,19 @@ public class TimeUtil {
      * 整型日期格式
      */
     public static final String INTEGER_DATE_FORMAT = "yyyyMMdd";
-
     public static final String INTEGER_HOUR_FORMAT = "yyyyMMddHH";
     public static final String INTEGER_MINUTE_FORMAT = "yyyyMMddHHmm";
+    public static final String NUMBER_TIME_FORMAT = "yyyyMMddHHmmss";
+    public static final String NUMBER_TIME_FORMAT_MS = "yyyyMMddHHmmssSSS";
 
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
-    public static final String DEFAULT_MONTH_DATE = "MM-dd";
-    /**
-     * 默认日期格式
-     */
-    public static final String DEFAULT_TIME_FORMAT_MS = "yyyy-MM-dd HH:mm:ss SSS";
-    public static final String DEFAULT_TIME_FORMAT_MS_1 = "yyyy-MM-dd HH:mm:ss.SSS";
-
-    public static final String DEFAULT_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    public static final String NUMBER_TIME_FORMAT = "yyyyMMddHHmmss";
-
-    public static final String NUMBER_TIME_FORMAT_MS = "yyyyMMddHHmmssSSS";
     public static final String DEFAULT_HOUR_FORMAT = "yyyy-MM-dd HH";
     public static final String DEFAULT_MINUTE_FORMAT = "yyyy-MM-dd HH:mm";
+    public static final String DEFAULT_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DEFAULT_TIME_FORMAT_MS = "yyyy-MM-dd HH:mm:ss SSS";
+    public static final String DEFAULT_TIME_FORMAT_MS_1 = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static final String DEFAULT_MONTH_DATE = "MM-dd";
     public static final String DEFAULT_SECOND_FORMAT = "HH:mm:ss";
     public static final String ACTION_CLOCK_RESTART = "ACTION_CLOCK_RESTART";
 
