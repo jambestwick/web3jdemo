@@ -72,7 +72,7 @@ public class TransferToken {
         return true;
     }
 
-    /****************转账****************/
+    /****************异步转账****************/
     public static void transferAsync(Web3j web3j, Credentials credentials, String toAddress, BigDecimal amount)
             throws InterruptedException, IOException, TransactionException, ExecutionException {
         if (web3j == null) return;
