@@ -64,6 +64,7 @@ public class TransMonitor {
     /**
      * 监听新交易事件
      * 已经交易的事件
+     * mark
      **/
     public Subscription subscribeHasTrans(final Action1<? super Transaction> onNext) {
         if (this.web3j == null) return null;
