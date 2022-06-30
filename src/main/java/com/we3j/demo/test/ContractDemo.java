@@ -91,6 +91,7 @@ public class ContractDemo {
      * 当发送一个比较大的nonce值，然后补齐开始nonce到那个值之间的nonce，那么交易依旧可以被执行。
      * 当交易处于queue中时停止geth客户端，那么交易queue中的交易会被清除掉。
      * 解决这个问题的方法是自己维护Nonce，同一个账户连续发送俩笔交易时，通过递增Nonce来防止Nonce重复。
+     * @param from  the address to create Contract
      ***********/
     public void createContract(String from) throws InterruptedException, ExecutionException {
 // using a raw transaction
@@ -147,7 +148,7 @@ public class ContractDemo {
         }
     }
 
-    /*********获取交易Hash获取合约地址***********/
+    /*********根据交易Hash获取合约地址***********/
     private String getContractAddress(String transactionHash) throws IOException {
         // get contract address
         EthGetTransactionReceipt transactionReceipt =
