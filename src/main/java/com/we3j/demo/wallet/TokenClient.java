@@ -213,7 +213,7 @@ public class TokenClient {
         //创建RawTransaction交易对象
         try {
             Function function = new Function(
-                    "transferForm",
+                    "transferFrom",
                     Arrays.asList(new Address(from), new Address(to), new Uint256(value)),
                     Arrays.asList(new TypeReference<Type>() {
                     }));
