@@ -199,7 +199,7 @@ public class TokenClient {
      * 先用A调用approve方法，传入B账户；
      * 然后调用transferFrom方法，from参数传A账户，to参数传B账户，最后账户地址要改为B的账户来调用
      * ****************/
-    public static boolean transferForm(Web3j web3j,
+    public static boolean transferFrom(Web3j web3j,
                                        Credentials credentials,
                                        String from,
                                        String to,
@@ -213,7 +213,7 @@ public class TokenClient {
         //创建RawTransaction交易对象
         try {
             Function function = new Function(
-                    "transferForm",
+                    "transferFrom",
                     Arrays.asList(new Address(from), new Address(to), new Uint256(value)),
                     Arrays.asList(new TypeReference<Type>() {
                     }));
