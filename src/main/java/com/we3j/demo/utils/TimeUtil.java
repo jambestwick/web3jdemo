@@ -16,26 +16,19 @@ public class TimeUtil {
      * 整型日期格式
      */
     public static final String INTEGER_DATE_FORMAT = "yyyyMMdd";
-
     public static final String INTEGER_HOUR_FORMAT = "yyyyMMddHH";
     public static final String INTEGER_MINUTE_FORMAT = "yyyyMMddHHmm";
+    public static final String NUMBER_TIME_FORMAT = "yyyyMMddHHmmss";
+    public static final String NUMBER_TIME_FORMAT_MS = "yyyyMMddHHmmssSSS";
 
 
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
-    public static final String DEFAULT_MONTH_DATE = "MM-dd";
-    /**
-     * 默认日期格式
-     */
-    public static final String DEFAULT_TIME_FORMAT_MS = "yyyy-MM-dd HH:mm:ss SSS";
-    public static final String DEFAULT_TIME_FORMAT_MS_1 = "yyyy-MM-dd HH:mm:ss.SSS";
-
-    public static final String DEFAULT_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
-
-    public static final String NUMBER_TIME_FORMAT = "yyyyMMddHHmmss";
-
-    public static final String NUMBER_TIME_FORMAT_MS = "yyyyMMddHHmmssSSS";
     public static final String DEFAULT_HOUR_FORMAT = "yyyy-MM-dd HH";
     public static final String DEFAULT_MINUTE_FORMAT = "yyyy-MM-dd HH:mm";
+    public static final String DEFAULT_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DEFAULT_TIME_FORMAT_MS = "yyyy-MM-dd HH:mm:ss SSS";
+    public static final String DEFAULT_TIME_FORMAT_MS_1 = "yyyy-MM-dd HH:mm:ss.SSS";
+    public static final String DEFAULT_MONTH_DATE = "MM-dd";
     public static final String DEFAULT_SECOND_FORMAT = "HH:mm:ss";
     public static final String ACTION_CLOCK_RESTART = "ACTION_CLOCK_RESTART";
 
@@ -69,15 +62,6 @@ public class TimeUtil {
         return str2Date(str, format).getTime();
     }
 
-    /**
-     * Created by jambestwick@126.com
-     * on 2018/3/22
-     * 将日期转换成字符串
-     *
-     * @param date    转换日期
-     * @param formart 转换格式
-     * @return
-     */
     public static String date2Str(Date date, String formart) {
         SimpleDateFormat sdf = new SimpleDateFormat(formart);
         return sdf.format(date);
@@ -181,14 +165,14 @@ public class TimeUtil {
     }
 
 
-    //生成设备界面日期字符串
+
     public static String getDay() {
         Date day = new Date();
         SimpleDateFormat df = new SimpleDateFormat(INTEGER_DATE_FORMAT);
         return df.format(day);
     }
 
-    //生成设备界面日期字符串
+
     public static String getDate() {
         Date day = new Date();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");
